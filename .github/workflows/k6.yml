@@ -1,0 +1,26 @@
+name: k6 carga
+on:
+  workflow_dispatch:
+    inputs:
+      grupo:   { description: 'grupo5 o grupo12', required: true, default: 'grupo5' }
+      vus:     { description: 'Usuarios virtuales', required: true, default: '50' }
+      duracion: { description: 'Duración en régimen', required: true, default: '5m' }
+jobs:
+  k6:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: grafana/setup-k6-action@v1
+      - name: Ejecutar k6
+        env:
+          BASE_URL: ${{ inputs.grupo == 'grupo5' && secrets.BASE_URL_GRUPO5 || secrets.BASE_URL_GRUPO12 }}
+          TOKEN: ${{ secrets.TOKEN_SYSTEM }}
+        run: |
+          mkdir -p salida
+          k6 run -e BASE_URL="$BASE_URL" -e TOKEN="$TOKEN" -e VUS=${{ inputs.vus }} -e DURACION=${{ inputs.duracion }} \
+            --summary-export=salida/resumen.json k6/escenarios/ciclo-de-viaje.js
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: k6-${{ inputs.grupo }}-${{ inputs.vus }}vu
+          path: salida/
