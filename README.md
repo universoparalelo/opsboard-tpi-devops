@@ -28,7 +28,7 @@ Consigna completa: [`../TPIntegrador-DevOps-UTN-2026.md`](../TPIntegrador-DevOps
 | 1 | _(completar)_ | Coordinación e integración | Contacto con Desarrollo, actas, issues, bitácora, informe final |
 | 2 | _(completar)_ | Instrumentación OpenTelemetry | SDK, exporter, APM, trazas y logs |
 | 3 | _(completar)_ | Dashboard y métricas del módulo | 3 métricas propias, dashboard técnico y funcional |
-| 4 | _(completar)_ | CI y calidad | Build, unitarios, E2E, SAST y Quality Gates |
+| 4 | Franco | CI/CD, Calidad y DevSecOps | Build, unitarios, E2E, SAST (SonarQube Cloud / Semgrep) y Quality Gates |
 | 5 | _(completar)_ | Cloud y k6 | Despliegue, scripts de carga, recursos y costos |
 
 ### Equipos de Desarrollo contactados
