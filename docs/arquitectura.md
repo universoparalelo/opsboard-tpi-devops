@@ -1,9 +1,28 @@
 # Arquitectura de M6 y sus integraciones
 
-_(completar con diagrama)_
+El diagrama de integraciones, el estado de cada una y la comparativa entre las dos implementaciones
+(Grupo 5 y Grupo 12) están en **[relevamiento/README.md](relevamiento/README.md)**.
 
-Relevado de los READMEs de los repos:
-- **M1 (Identidad):** JWT en cada operación protegida. Hoy se decodifica sin validar la firma.
-- **M5 (Despacho):** crea viajes con `POST /trips` (rol `SYSTEM`).
-- **M8 (Notificaciones):** valida el QR en `POST /trips/{id}/start`. Hoy simulado.
-- Eventos publicados (hoy en un bus en memoria): consumidos por M7, M8, M4, M2, M3, M5.
+## Telemetría (lo que armamos nosotros)
+
+```mermaid
+flowchart LR
+  subgraph servicios
+    G5[M6 Grupo 5<br/>service.name=m6-grupo5]
+    G12[M6 Grupo 12<br/>service.name=m6-grupo12]
+  end
+  K6[k6<br/>generador de carga]
+  K6 -- HTTP --> G5
+  K6 -- HTTP --> G12
+  G5 -- OTLP --> C[OpenTelemetry Collector]
+  G12 -. OTLP pendiente .-> C
+  C -- trazas --> J[Jaeger]
+  C -- métricas --> P[Prometheus]
+  C -- logs --> L[Loki]
+  K6 -- remote write --> P
+  J --> GR[Grafana]
+  P --> GR
+  L --> GR
+```
+
+Stack local en [`observabilidad/`](../observabilidad/) (docker compose). Dashboard en [`dashboards/`](../dashboards/).
