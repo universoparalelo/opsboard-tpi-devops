@@ -1,0 +1,47 @@
+# Stack de observabilidad local: los servicios envian OTLP al colector y este reparte.
+#   trazas  -> Jaeger        (UI :16686)
+#   metricas-> Prometheus    (UI :9090, scrapea al colector en :8889)
+#   logs    -> Loki          (consulta desde Grafana)
+#   Grafana (UI :3001) ya viene con los 3 datasources configurados.
+# Los servicios apuntan a: OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 (HTTP) o :4317 (gRPC)
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.111.0
+    command: ["--config=/etc/otelcol/config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otelcol/config.yaml:ro
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+    depends_on: [jaeger, loki]
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.62.0
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports:
+      - "16686:16686"
+
+  prometheus:
+    image: prom/prometheus:v2.55.0
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+
+  loki:
+    image: grafana/loki:3.2.0
+    command: ["-config.file=/etc/loki/local-config.yaml"]
+    ports:
+      - "3100:3100"
+
+  grafana:
+    image: grafana/grafana:11.3.0
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    ports:
+      - "3001:3000"
+    depends_on: [prometheus, jaeger, loki]
