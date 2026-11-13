@@ -24,6 +24,10 @@ services:
 
   prometheus:
     image: prom/prometheus:v2.55.0
+    # Recibe tambien las metricas que k6 envia (remote write) para verlas en Grafana junto al servicio.
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.enable-remote-write-receiver
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     ports:
@@ -42,6 +46,8 @@ services:
       GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      # Los dashboards viven en ../dashboards (versionados): Grafana los carga solos al arrancar.
+      - ../dashboards:/var/lib/grafana/dashboards
     ports:
       - "3001:3000"
     depends_on: [prometheus, jaeger, loki]
