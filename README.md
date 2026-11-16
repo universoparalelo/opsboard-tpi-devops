@@ -59,8 +59,8 @@ Consigna completa: [`../TPIntegrador-DevOps-UTN-2026.md`](../TPIntegrador-DevOps
 ### Propuestas técnicas
 - [ ] Elegir la plataforma APM / observabilidad (con plan gratuito) y justificar · Resp.: _ _ _
 - [ ] Definir las **3 métricas propias de M6** y qué mide cada una (ver borrador en la sección 6) · Resp.: _ _ _
-- [ ] Elegir la herramienta SAST (SonarQube Cloud, Semgrep o CodeQL) · Resp.: _ _ _
-- [ ] Proponer el flujo E2E a automatizar · Resp.: _ _ _
+- [x] Elegir la herramienta SAST (SonarQube Cloud, Semgrep o CodeQL) · Resp.: Franco ([`docs/ci-sast-estrategia.md`](docs/ci-sast-estrategia.md))
+- [x] Proponer el flujo E2E a automatizar · Resp.: Franco ([`docs/ci-sast-estrategia.md`](docs/ci-sast-estrategia.md))
 - [ ] Proponer el flujo de k6 (endpoints, datos de prueba, duración, rampa de usuarios) · Resp.: _ _ _
 - [ ] Elegir el entorno cloud y estimar costos / cuotas · Resp.: _ _ _
 
@@ -169,7 +169,15 @@ Formato mínimo de cada entrada (una por tarea relevante, en orden cronológico)
 
 <!-- Agregar las entradas nuevas debajo, de la más antigua a la más reciente -->
 
-_(sin entradas todavía)_
+### 2026-11-16 · Franco · M6
+- Objetivo: Definir la estrategia de CI/CD, Quality Gates y herramienta SAST para G5 y G12, y preparar los pipelines de integración continua.
+- Tarea ejecutada: Relevamiento de `.github/workflows/m6-viajes.yml` (G5) y `backend/package.json` + `vitest.integration.config.ts` (G12); redacción de [`docs/ci-sast-estrategia.md`](docs/ci-sast-estrategia.md) justificando Semgrep + `npm audit` y definiendo el flujo E2E estándar.
+- Decisiones / acuerdos con Desarrollo: Se adopta Semgrep como SAST principal para no exigir tokens externos a los grupos de Desarrollo. Pendiente de envío de PRs a G5 (`main`) y G12 (`m6/base-de-datos`).
+- Repositorio / issue / PR: `opsboard-tpi-devops` · commit local en preparación.
+- Evidencia (URL, captura o reporte): [`docs/ci-sast-estrategia.md`](docs/ci-sast-estrategia.md).
+- Resultado: Estrategia SAST, Quality Gates y diseño de pipelines listos para implementación y verificación.
+- Dificultad o bloqueo: Grupo 12 no tiene carpeta `.github/` ni rama `main` (trabaja sobre `m6/base-de-datos`); además tiene JWT sin validar firma en el código actual.
+- Siguiente acción: Validar localmente `tsc`, tests y Semgrep en `2026-12-TPI` y `2026-05-TPI`, y abrir los PRs correspondientes.
 
 ## 8. Riesgos y dependencias a registrar temprano
 
