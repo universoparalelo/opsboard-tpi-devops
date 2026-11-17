@@ -169,15 +169,28 @@ Formato mínimo de cada entrada (una por tarea relevante, en orden cronológico)
 
 <!-- Agregar las entradas nuevas debajo, de la más antigua a la más reciente -->
 
-### 2026-11-16 · Franco · M6
+### 2026-11-16 · Franco · M6 (Parte 1)
 - Objetivo: Definir la estrategia de CI/CD, Quality Gates y herramienta SAST para G5 y G12, y preparar los pipelines de integración continua.
-- Tarea ejecutada: Relevamiento de `.github/workflows/m6-viajes.yml` (G5) y `backend/package.json` + `vitest.integration.config.ts` (G12); redacción de [`docs/ci-sast-estrategia.md`](docs/ci-sast-estrategia.md) justificando Semgrep + `npm audit` y definiendo el flujo E2E estándar.
-- Decisiones / acuerdos con Desarrollo: Se adopta Semgrep como SAST principal para no exigir tokens externos a los grupos de Desarrollo. Pendiente de envío de PRs a G5 (`main`) y G12 (`m6/base-de-datos`).
-- Repositorio / issue / PR: `opsboard-tpi-devops` · commit local en preparación.
+- Tarea ejecutada: Relevamiento de `.github/workflows/m6-viajes.yml` (G5) y `backend/package.json` + `vitest.integration.config.ts` (G12); redacción de [`docs/ci-sast-estrategia.md`](docs/ci-sast-estrategia.md).
+- Decisiones / acuerdos con Desarrollo: Se documentan los Quality Gates y el flujo E2E estándar de M6.
+- Repositorio / issue / PR: `opsboard-tpi-devops` · commit `a9cda96`.
 - Evidencia (URL, captura o reporte): [`docs/ci-sast-estrategia.md`](docs/ci-sast-estrategia.md).
-- Resultado: Estrategia SAST, Quality Gates y diseño de pipelines listos para implementación y verificación.
-- Dificultad o bloqueo: Grupo 12 no tiene carpeta `.github/` ni rama `main` (trabaja sobre `m6/base-de-datos`); además tiene JWT sin validar firma en el código actual.
-- Siguiente acción: Validar localmente `tsc`, tests y Semgrep en `2026-12-TPI` y `2026-05-TPI`, y abrir los PRs correspondientes.
+- Resultado: Base documental inicial subida a `main`.
+- Dificultad o bloqueo: Grupo 12 no tiene carpeta `.github/` ni rama `main` (trabaja sobre `m6/base-de-datos`).
+- Siguiente acción: Validar permisos de herramientas SAST y ejecutar pruebas locales con Docker en Grupo 12.
+
+### 2026-11-16 · Franco · M6 (Parte 2)
+- Objetivo: Confirmar el stack SAST/SCA definitivo sin costo ni bloqueos de organización y validar localmente el pipeline completo de Grupo 12 con Docker.
+- Tarea ejecutada:
+  - Verificación de permisos en GitHub (*Advanced Security*: CodeQL y carga SARIF habilitados con rol Repo Admin; descarte fundado de SonarQube Cloud por requerir Owner de `FRRe-DS`, límite de 5 usuarios y licencia OSI, y de GitHub Code Quality por consumo de action minutes).
+  - Ejecución local completa en `2026-12-TPI`: `prisma generate`, `tsc --noEmit` (`0` errores), `npm audit --omit=dev` (`0` high), Vitest unitarios (`221/221` OK), Vitest `test:integration` contra PostgreSQL 16 en Docker (`228/228` OK) y `semgrep scan` (`18` archivos, `0` hallazgos).
+  - Diseño local de `.github/workflows/ci.yml` (con exportación de reportes JUnit y SARIF) y `.github/workflows/codeql.yml` para Grupo 12.
+- Decisiones / acuerdos con Desarrollo: Stack definitivo cerrado en **GitHub CodeQL + Semgrep (`1.184.0`) + `npm audit` + reportes de tests/cobertura**. Se detectaron 3 PRs abiertos en G12 (#7, #24, #25) y el PR #3 (`telemetria`) en G5; se coordina envío de PRs previa reunión/mensaje con Agos (G12) y Valentino (G5).
+- Repositorio / issue / PR: `opsboard-tpi-devops` (actualización de estrategia y bitácora) · `2026-12-TPI` (workflows locales listos para PR).
+- Evidencia (URL, captura o reporte): [`docs/ci-sast-estrategia.md`](docs/ci-sast-estrategia.md).
+- Resultado: Pipeline de Grupo 12 validado de punta a punta en local; confirmado que Semgrep CE no detecta JWT sin verificación de firma (`auth.middleware.ts`) ni panel `/api/*` abierto, por lo que se registra como deuda de seguridad a tratar con G12.
+- Dificultad o bloqueo: Grupo 12 no incluye `@vitest/coverage-v8` en `package.json`; se propondrá a Desarrollo sumarlo para reportar cobertura.
+- Siguiente acción: Revisar/pushear actualización de `opsboard-tpi-devops`, enviar propuesta de PR a Agostina (G12) y continuar con la validación local de Grupo 5 (`test:infra`, `test:cov`, Semgrep y rama `telemetria`).
 
 ## 8. Riesgos y dependencias a registrar temprano
 
