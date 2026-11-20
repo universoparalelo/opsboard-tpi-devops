@@ -86,7 +86,7 @@ Consigna completa: [`../TPIntegrador-DevOps-UTN-2026.md`](../TPIntegrador-DevOps
 - [ ] Implementar las 3 métricas propias de M6 · PR: _ _ _ · Resp.: _ _ _
 - [ ] Dashboard con indicadores técnicos para ambos grupos: requests, latencia, errores, CPU y memoria · [Grupo 5 validado localmente](bitacora/2026-11-20-validacion-metricas-g5.md); falta Grupo 12 y verificar PostgreSQL p95 · Resp.: Philippe
 - [ ] Dashboard con las 3 métricas propias para ambos grupos · [Grupo 5 validado localmente con tráfico real](bitacora/2026-11-20-validacion-metricas-g5.md); falta Grupo 12 · Resp.: Philippe
-- [ ] Demostrar el uso de una traza (y logs) para investigar una operación o un error · Link: _ _ _
+- [ ] Demostrar el uso de una traza (y logs) para investigar una operación o un error · [Navegación log → traza validada localmente en Grupo 5](bitacora/2026-11-20-validacion-metricas-g5.md); falta un caso de negocio o error para la demostración · Resp.: Philippe
 
 ### Integración continua
 - [ ] Pipeline con compilación en el repo original · PR: _ _ _ · Resp.: _ _ _
@@ -197,8 +197,8 @@ Formato mínimo de cada entrada (una por tarea relevante, en orden cronológico)
 ### 2026-11-20 · Philippe · M6
 - Objetivo: validar localmente las tres métricas propias del Grupo 5 en Grafana con operaciones reales de viajes.
 - Tarea ejecutada: creación, finalización y cancelación de viajes de prueba; revisión del dashboard y de los contadores en Prometheus.
-- Evidencia y resultado: [entrada detallada de bitácora con capturas](bitacora/2026-11-20-validacion-metricas-g5.md). Se observaron 9 creaciones, 5 finalizaciones y 4 cancelaciones acumuladas; las tres métricas propias y los indicadores técnicos HTTP, CPU y memoria aparecieron en el dashboard local.
-- Dificultad y siguiente acción: un arribo inicial recibió 403 por usar el rol SYSTEM; falta verificar PostgreSQL p95, logs/trazas, k6 y el Grupo 12.
+- Evidencia y resultado: [entrada detallada de bitácora con capturas](bitacora/2026-11-20-validacion-metricas-g5.md). Se observaron 9 creaciones, 5 finalizaciones y 4 cancelaciones acumuladas; las tres métricas propias, indicadores técnicos HTTP/CPU/memoria y el vínculo log → traza aparecieron en Grafana local.
+- Dificultad y siguiente acción: un arribo inicial recibió 403 por usar el rol SYSTEM; falta verificar PostgreSQL p95, una traza de negocio o error, k6 y el Grupo 12.
 
 ## 8. Riesgos y dependencias a registrar temprano
 

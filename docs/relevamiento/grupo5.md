@@ -44,7 +44,7 @@ Convenciones: errores `problem+json`, `ETag`/`If-Match`, `Idempotency-Key` (Redi
 
 ## Estado de observabilidad
 - Antes de nuestro trabajo: ninguna (solo logs y `/health/details`).
-- **Integrado en `main` con el [PR de telemetría #3](https://github.com/FRRe-DS/2026-05-TPI/pull/3) (2026-11-18):** OpenTelemetry (trazas HTTP/Express/Nest/pg/ioredis/amqplib/undici, métricas del runtime, 3 métricas `m6_*`, logs con `trace_id`). Ver `m6-viajes/src/telemetria/`. Se activa solo con `OTEL_EXPORTER_OTLP_ENDPOINT`. Las tres métricas propias se [validaron con tráfico real en Grafana local el 2026-11-20](../../bitacora/2026-11-20-validacion-metricas-g5.md); queda por verificar logs/trazas y paneles técnicos completos.
+- **Integrado en `main` con el [PR de telemetría #3](https://github.com/FRRe-DS/2026-05-TPI/pull/3) (2026-11-18):** OpenTelemetry (trazas HTTP/Express/Nest/pg/ioredis/amqplib/undici, métricas del runtime, 3 métricas `m6_*`, logs con `trace_id`). Ver `m6-viajes/src/telemetria/`. Se activa solo con `OTEL_EXPORTER_OTLP_ENDPOINT`. Las tres métricas propias, los indicadores HTTP/CPU/memoria y el enlace de un log a su traza se [validaron en Grafana local el 2026-11-20](../../bitacora/2026-11-20-validacion-metricas-g5.md); queda por verificar una traza de negocio y la latencia p95 de PostgreSQL.
 
 ## Riesgos para nuestro plan
 - Despliegue: necesita PostgreSQL, RabbitMQ y Redis y un proceso permanente (outbox). No encaja en un entorno serverless sin adaptar.

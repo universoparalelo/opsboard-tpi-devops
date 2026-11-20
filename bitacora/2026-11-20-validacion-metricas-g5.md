@@ -1,6 +1,6 @@
 # 2026-11-20 · Philippe · M6 — Validación local de métricas del Grupo 5
 
-- **Fecha y hora:** 2026-11-20, aproximadamente 12:45–13:03 (-03) para la prueba manual y la primera captura; consulta de los contadores en Prometheus a las 14:08 (-03); capturas de indicadores técnicos y resumen a las 14:28–14:29 (-03).
+- **Fecha y hora:** 2026-11-20, aproximadamente 12:45–13:03 (-03) para la prueba manual y la primera captura; consulta de los contadores en Prometheus a las 14:08 (-03); capturas de indicadores técnicos y resumen a las 14:28–14:29 (-03); verificación de log y traza a las 14:38 (-03).
 - **Objetivo:** comprobar que las tres métricas propias de M6 instrumentadas por el Grupo 5 llegan al dashboard con tráfico real del ciclo de vida de viajes.
 - **Entorno:** servicio `m6-viajes` del Grupo 5 ejecutado localmente; PostgreSQL, RabbitMQ y Redis locales; colector OpenTelemetry, Prometheus y Grafana del stack local de este repositorio. El dashboard se consultó en `http://localhost:3001/d/m6-observabilidad/m6-viajes-y-ciclo-de-vida` con el servicio `m6-grupo5`.
 - **Tarea ejecutada:**
@@ -12,8 +12,8 @@
 - **Repositorio / PR:** [telemetría del Grupo 5](https://github.com/FRRe-DS/2026-05-TPI/pull/3); [dashboard versionado](../dashboards/m6-observabilidad.json) y [convención de métricas](../docs/convencion-metricas.md) de este repositorio.
 - **Evidencia:** [métricas propias de M6](evidencias/2026-11-20-g5-dashboard-m6.png), [indicadores técnicos](evidencias/2026-11-20-g5-indicadores-tecnicos.png) y [resumen con sección k6](evidencias/2026-11-20-g5-resumen-k6.png). Los valores acumulados anteriores se leyeron de Prometheus local a las 14:08 (-03).
 - **Resultado:** validada localmente la exportación y visualización de las tres métricas propias de M6 del Grupo 5 con operaciones reales. El **12,5 %** del panel se calcula con incrementos durante el intervalo visible; **no** representa la proporción acumulada `4/9`. El 0 % observado inicialmente se debió a que el contador de cancelaciones ya tenía valor cuando Prometheus empezó a observarlo; una cancelación posterior hizo visible su incremento.
-- **Dificultad o bloqueo:** se detectó y corrigió la selección incorrecta del rol en Swagger. Siguen pendientes la navegación de logs a trazas, la latencia p95 de PostgreSQL, el servicio del Grupo 12, el comportamiento bajo carga con k6 y un despliegue cloud.
-- **Siguiente acción:** validar una traza con su log y la latencia de PostgreSQL durante operaciones de viajes; después ejecutar una prueba pequeña de k6 contra el Grupo 5 local. Coordinar con el Grupo 12 la convención de métricas antes de afirmar que el dashboard compara ambos servicios.
+- **Dificultad o bloqueo:** se detectó y corrigió la selección incorrecta del rol en Swagger. Para exportar logs a Loki fue necesario reiniciar M6 con `LOG_FORMATO=json`. Siguen pendientes la latencia p95 de PostgreSQL, el servicio del Grupo 12, el comportamiento bajo carga con k6 y un despliegue cloud.
+- **Siguiente acción:** repetir la inspección de logs y trazas con una operación de negocio de M6 y verificar la latencia de PostgreSQL; después ejecutar una prueba pequeña de k6 contra el Grupo 5 local. Coordinar con el Grupo 12 la convención de métricas antes de afirmar que el dashboard compara ambos servicios.
 
 ## Ampliación de las 14:28–14:29 (-03): indicadores técnicos
 
@@ -29,6 +29,14 @@ Philippe revisó las secciones **Resumen** e **Indicadores técnicos** en Grafan
 | Viajes completados | El resumen marcaba **0** dentro de **Last 15 minutes**. | Es una ventana temporal; los 5 viajes completados acumulados se verificaron antes en Prometheus. |
 | Prueba de carga (k6) | Los tres paneles indicaban **No data**. | Esperado mientras no se ejecute y exporte una corrida de k6; no cuenta como validación de carga. |
 
-**Resultado de la ampliación:** se comprobó que el dashboard muestra indicadores técnicos HTTP, CPU, memoria y event loop del Grupo 5. Falta verificar PostgreSQL p95 y el vínculo entre logs y trazas.
+**Resultado de la ampliación:** se comprobó que el dashboard muestra indicadores técnicos HTTP, CPU, memoria y event loop del Grupo 5. La latencia p95 de PostgreSQL sigue pendiente.
+
+## Ampliación de las 14:38–14:45 (-03): vínculo entre log y traza
+
+Después de reiniciar el servicio M6 local con `LOG_FORMATO=json`, se generó una solicitud `GET /` que respondió **302**. El log llegó a Loki y Philippe abrió el botón **Ver traza** desde **Logs del servicio** en Grafana. La vista de Jaeger mostró la traza del servicio `m6-grupo5` con el mismo ID `1256f32f12f2d72124cd4848ff2a3d92`.
+
+- **Evidencia:** [línea `GET / 302` en el panel de logs](evidencias/2026-11-20-g5-log-get.png) y [traza abierta desde ese log en Jaeger](evidencias/2026-11-20-g5-traza-jaeger.png).
+- **Detalle observado:** la traza duró aproximadamente **4,56 ms** y mostró **4 spans**: `GET /`, `request handler - /`, `RaizController.raiz` y `raiz`.
+- **Resultado:** validada localmente la navegación **Grafana/Loki → Ver traza → Jaeger** para el Grupo 5. Esta solicitud a la raíz demuestra la correlación técnica; para presentar una investigación funcional de M6 conviene repetirla con una operación de viaje o un error.
 
 No se guardaron JWT, secretos ni datos de producción en esta evidencia.
