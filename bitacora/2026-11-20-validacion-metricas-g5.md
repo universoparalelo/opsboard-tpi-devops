@@ -1,6 +1,6 @@
 # 2026-11-20 · Philippe · M6 — Validación local de métricas del Grupo 5
 
-- **Fecha y hora:** 2026-11-20, aproximadamente 12:45–13:03 (-03) para la prueba manual y la primera captura; consulta de los contadores en Prometheus a las 14:08 (-03); capturas de indicadores técnicos y resumen a las 14:28–14:29 (-03); verificación de log y traza a las 14:38 (-03).
+- **Fecha y hora:** 2026-11-20, aproximadamente 12:45–13:03 (-03) para la prueba manual y la primera captura; consulta de los contadores en Prometheus a las 14:08 (-03); capturas de indicadores técnicos y resumen a las 14:28–14:29 (-03); verificación de log y traza a las 14:38 (-03) y de una operación de viaje a las 14:48 (-03).
 - **Objetivo:** comprobar que las tres métricas propias de M6 instrumentadas por el Grupo 5 llegan al dashboard con tráfico real del ciclo de vida de viajes.
 - **Entorno:** servicio `m6-viajes` del Grupo 5 ejecutado localmente; PostgreSQL, RabbitMQ y Redis locales; colector OpenTelemetry, Prometheus y Grafana del stack local de este repositorio. El dashboard se consultó en `http://localhost:3001/d/m6-observabilidad/m6-viajes-y-ciclo-de-vida` con el servicio `m6-grupo5`.
 - **Tarea ejecutada:**
@@ -13,7 +13,7 @@
 - **Evidencia:** [métricas propias de M6](evidencias/2026-11-20-g5-dashboard-m6.png), [indicadores técnicos](evidencias/2026-11-20-g5-indicadores-tecnicos.png) y [resumen con sección k6](evidencias/2026-11-20-g5-resumen-k6.png). Los valores acumulados anteriores se leyeron de Prometheus local a las 14:08 (-03).
 - **Resultado:** validada localmente la exportación y visualización de las tres métricas propias de M6 del Grupo 5 con operaciones reales. El **12,5 %** del panel se calcula con incrementos durante el intervalo visible; **no** representa la proporción acumulada `4/9`. El 0 % observado inicialmente se debió a que el contador de cancelaciones ya tenía valor cuando Prometheus empezó a observarlo; una cancelación posterior hizo visible su incremento.
 - **Dificultad o bloqueo:** se detectó y corrigió la selección incorrecta del rol en Swagger. Para exportar logs a Loki fue necesario reiniciar M6 con `LOG_FORMATO=json`. Siguen pendientes la latencia p95 de PostgreSQL, el servicio del Grupo 12, el comportamiento bajo carga con k6 y un despliegue cloud.
-- **Siguiente acción:** repetir la inspección de logs y trazas con una operación de negocio de M6 y verificar la latencia de PostgreSQL; después ejecutar una prueba pequeña de k6 contra el Grupo 5 local. Coordinar con el Grupo 12 la convención de métricas antes de afirmar que el dashboard compara ambos servicios.
+- **Siguiente acción:** verificar la métrica de latencia p95 de PostgreSQL en el dashboard y ejecutar una prueba pequeña de k6 contra el Grupo 5 local. Coordinar con el Grupo 12 la convención de métricas antes de afirmar que el dashboard compara ambos servicios.
 
 ## Ampliación de las 14:28–14:29 (-03): indicadores técnicos
 
@@ -38,5 +38,14 @@ Después de reiniciar el servicio M6 local con `LOG_FORMATO=json`, se generó un
 - **Evidencia:** [línea `GET / 302` en el panel de logs](evidencias/2026-11-20-g5-log-get.png) y [traza abierta desde ese log en Jaeger](evidencias/2026-11-20-g5-traza-jaeger.png).
 - **Detalle observado:** la traza duró aproximadamente **4,56 ms** y mostró **4 spans**: `GET /`, `request handler - /`, `RaizController.raiz` y `raiz`.
 - **Resultado:** validada localmente la navegación **Grafana/Loki → Ver traza → Jaeger** para el Grupo 5. Esta solicitud a la raíz demuestra la correlación técnica; para presentar una investigación funcional de M6 conviene repetirla con una operación de viaje o un error.
+
+## Ampliación de las 14:48–14:51 (-03): consulta de un viaje
+
+Se consultó sin modificar datos el viaje de prueba `48f83514-ea48-45f0-9d10-ad5e9f230b52` mediante `GET /trips/{tripId}` con rol `SYSTEM`. La API respondió **200**. Philippe abrió desde el log de esa solicitud la traza en Jaeger.
+
+- **Evidencia:** [log `GET /trips/... 200`](evidencias/2026-11-20-g5-log-obtener-viaje.png) y [traza de la operación de viaje](evidencias/2026-11-20-g5-traza-obtener-viaje.png).
+- **Correlación:** el log y la traza comparten el ID `b9296cbc4d651c35ec6628308bc6ba55`.
+- **Detalle observado:** la traza de `m6-grupo5` muestra **13 spans** y una duración total aproximada de **12,14 ms**. Incluye `ViajesController.obtener`, pasos de Redis y dos spans `pg.query:SELECT m6_viajes` de aproximadamente **2,68 ms** y **1,96 ms**.
+- **Resultado:** comprobada en la interfaz la navegación **log → traza** para una operación real del módulo M6, con visibilidad de la consulta a PostgreSQL. Esto demuestra trazabilidad local; la métrica agregada **PostgreSQL p95** del dashboard sigue pendiente de validación.
 
 No se guardaron JWT, secretos ni datos de producción en esta evidencia.
