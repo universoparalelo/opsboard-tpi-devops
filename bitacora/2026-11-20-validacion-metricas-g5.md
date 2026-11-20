@@ -1,0 +1,18 @@
+# 2026-11-20 · Philippe · M6 — Validación local de métricas del Grupo 5
+
+- **Fecha y hora:** 2026-11-20, aproximadamente 12:45–13:03 (-03) para la prueba manual y la captura; consulta de los contadores en Prometheus a las 14:08 (-03).
+- **Objetivo:** comprobar que las tres métricas propias de M6 instrumentadas por el Grupo 5 llegan al dashboard con tráfico real del ciclo de vida de viajes.
+- **Entorno:** servicio `m6-viajes` del Grupo 5 ejecutado localmente; PostgreSQL, RabbitMQ y Redis locales; colector OpenTelemetry, Prometheus y Grafana del stack local de este repositorio. El dashboard se consultó en `http://localhost:3001/d/m6-observabilidad/m6-viajes-y-ciclo-de-vida` con el servicio `m6-grupo5`.
+- **Tarea ejecutada:**
+  1. Se generaron viajes de prueba con `POST /trips` usando el rol `SYSTEM`; para los viajes completados se ejecutó arribo, inicio con QR y finalización usando el rol `DRIVER`. Otros viajes se cancelaron con el rol `CLIENT` y motivo `CHANGE_OF_PLANS`.
+  2. El primer intento de `POST /trips/{id}/arrived` sobre el viaje `48f83514-ea48-45f0-9d10-ad5e9f230b52` devolvió `403 FORBIDDEN` porque Swagger seguía enviando el token `SYSTEM`. Se repitió con el rol `DRIVER`; el error era de autorización de la prueba, no una falla de la transición.
+  3. Se comprobó en Grafana que aparecían transiciones por estado, cancelaciones por actor y motivo, tasa de cancelación, duración de operaciones y operaciones fallidas. La captura final muestra una tasa de cancelación del **12,5 %** para el intervalo seleccionado.
+  4. Se consultaron los contadores acumulados de Prometheus: `m6_trip_transitions_total{from="NONE"}` = **9** viajes creados; `m6_trip_transitions_total{to="COMPLETED"}` = **5** completados; `m6_trip_cancellations_total{actor="CLIENT",reason="CHANGE_OF_PLANS"}` = **4** cancelados (todos para `service_name="m6-grupo5"`). También había series de duración para `CREATE`, `REGISTER_ARRIVAL`, `START`, `COMPLETE` y `CANCEL`.
+- **Decisiones / acuerdos con Desarrollo:** no se cerró un acuerdo nuevo. Se usaron las métricas ya implementadas en el [PR de telemetría #3 del Grupo 5](https://github.com/FRRe-DS/2026-05-TPI/pull/3); esta prueba no modifica el servicio.
+- **Repositorio / PR:** [telemetría del Grupo 5](https://github.com/FRRe-DS/2026-05-TPI/pull/3); [dashboard versionado](../dashboards/m6-observabilidad.json) y [convención de métricas](../docs/convencion-metricas.md) de este repositorio.
+- **Evidencia:** [captura final del dashboard](evidencias/2026-11-20-g5-dashboard-m6.png), con datos visibles para las tres métricas. Los valores acumulados anteriores se leyeron de Prometheus local a las 14:08 (-03).
+- **Resultado:** validada localmente la exportación y visualización de las tres métricas propias de M6 del Grupo 5 con operaciones reales. El **12,5 %** del panel se calcula con incrementos durante el intervalo visible; **no** representa la proporción acumulada `4/9`. El 0 % observado inicialmente se debió a que el contador de cancelaciones ya tenía valor cuando Prometheus empezó a observarlo; una cancelación posterior hizo visible su incremento.
+- **Dificultad o bloqueo:** se detectó y corrigió la selección incorrecta del rol en Swagger. Todavía no se verificaron los paneles técnicos completos (requests, CPU y memoria), la navegación de logs a trazas, el servicio del Grupo 12, el comportamiento bajo carga con k6 ni un despliegue cloud.
+- **Siguiente acción:** validar los paneles técnicos y una traza con su log, guardar la evidencia y luego ejecutar una prueba pequeña de k6 contra el Grupo 5 local. Coordinar con el Grupo 12 la convención de métricas antes de afirmar que el dashboard compara ambos servicios.
+
+No se guardaron JWT, secretos ni datos de producción en esta evidencia.

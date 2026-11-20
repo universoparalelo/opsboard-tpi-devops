@@ -65,7 +65,7 @@ Consigna completa: [`../TPIntegrador-DevOps-UTN-2026.md`](../TPIntegrador-DevOps
 - [ ] Elegir el entorno cloud y estimar costos / cuotas · Resp.: _ _ _
 
 ### Cierre del hito
-- [ ] Primera entrada de bitácora cargada (formato en sección 7) · Resp.: _ _ _
+- [x] Primera entrada de bitácora cargada (formato en sección 7) · Resp.: Franco (entradas del 2026-11-16); Philippe registró la [validación local de métricas del Grupo 5](bitacora/2026-11-20-validacion-metricas-g5.md)
 - [ ] Registrar impedimentos o dependencias externas detectados · Resp.: _ _ _
 
 ---
@@ -85,7 +85,7 @@ Consigna completa: [`../TPIntegrador-DevOps-UTN-2026.md`](../TPIntegrador-DevOps
 - [ ] Configurar el exporter hacia la plataforma APM elegida · Resp.: _ _ _
 - [ ] Implementar las 3 métricas propias de M6 · PR: _ _ _ · Resp.: _ _ _
 - [ ] Dashboard con indicadores técnicos: requests, latencia, errores, CPU y memoria · Link: _ _ _
-- [ ] Dashboard con las 3 métricas propias · Link: _ _ _
+- [ ] Dashboard con las 3 métricas propias para ambos grupos · [Grupo 5 validado localmente con tráfico real](bitacora/2026-11-20-validacion-metricas-g5.md); falta Grupo 12 · Resp.: Philippe
 - [ ] Demostrar el uso de una traza (y logs) para investigar una operación o un error · Link: _ _ _
 
 ### Integración continua
@@ -142,7 +142,7 @@ Consigna completa: [`../TPIntegrador-DevOps-UTN-2026.md`](../TPIntegrador-DevOps
 ## 6. Métricas propias de M6
 
 Ya implementadas en el servicio del Grupo 5 mediante el [PR de telemetría #3](https://github.com/FRRe-DS/2026-05-TPI/pull/3).
-Falta acordar la misma convención con el Grupo 12 y comprobar los datos reales en Grafana.
+La [prueba local del 2026-11-20](bitacora/2026-11-20-validacion-metricas-g5.md) comprobó datos reales del Grupo 5 en Grafana. Falta acordar y validar la misma convención con el Grupo 12.
 Los nombres, etiquetas y unidades están en [docs/convencion-metricas.md](docs/convencion-metricas.md).
 
 | Métrica | Qué mide | Por qué sirve |
@@ -193,6 +193,12 @@ Formato mínimo de cada entrada (una por tarea relevante, en orden cronológico)
 - Resultado: Pipeline de Grupo 12 validado de punta a punta en local; confirmado que Semgrep CE no detecta JWT sin verificación de firma (`auth.middleware.ts`) ni panel `/api/*` abierto, por lo que se registra como deuda de seguridad a tratar con G12.
 - Dificultad o bloqueo: Grupo 12 no incluye `@vitest/coverage-v8` en `package.json`; se propondrá a Desarrollo sumarlo para reportar cobertura.
 - Siguiente acción: Revisar/pushear actualización de `opsboard-tpi-devops`, enviar propuesta de PR a Agostina (G12) y continuar con la validación local de Grupo 5 (`test:infra`, `test:cov`, Semgrep y rama `telemetria`).
+
+### 2026-11-20 · Philippe · M6
+- Objetivo: validar localmente las tres métricas propias del Grupo 5 en Grafana con operaciones reales de viajes.
+- Tarea ejecutada: creación, finalización y cancelación de viajes de prueba; revisión del dashboard y de los contadores en Prometheus.
+- Evidencia y resultado: [entrada detallada de bitácora con captura](bitacora/2026-11-20-validacion-metricas-g5.md). Se observaron 9 creaciones, 5 finalizaciones y 4 cancelaciones acumuladas; las tres métricas aparecieron en el dashboard.
+- Dificultad y siguiente acción: un arribo inicial recibió 403 por usar el rol SYSTEM; falta validar paneles técnicos, logs/trazas, k6 y el Grupo 12.
 
 ## 8. Riesgos y dependencias a registrar temprano
 
