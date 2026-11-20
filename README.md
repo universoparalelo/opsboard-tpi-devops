@@ -27,7 +27,7 @@ Consigna completa: [`../TPIntegrador-DevOps-UTN-2026.md`](../TPIntegrador-DevOps
 |---|---|---|---|
 | 1 | _(completar)_ | Coordinación e integración | Contacto con Desarrollo, actas, issues, bitácora, informe final |
 | 2 | _(completar)_ | Instrumentación OpenTelemetry | SDK, exporter, APM, trazas y logs |
-| 3 | _(completar)_ | Dashboard y métricas del módulo | 3 métricas propias, dashboard técnico y funcional |
+| 3 | Philippe | Dashboard y métricas del módulo | 3 métricas propias, dashboard técnico y funcional |
 | 4 | Franco | CI/CD, Calidad y DevSecOps | Build, unitarios, E2E, SAST (SonarQube Cloud / Semgrep) y Quality Gates |
 | 5 | _(completar)_ | Cloud y k6 | Despliegue, scripts de carga, recursos y costos |
 
@@ -139,15 +139,17 @@ Consigna completa: [`../TPIntegrador-DevOps-UTN-2026.md`](../TPIntegrador-DevOps
 - [ ] Presentación preparada, coordinada con el grupo de Desarrollo
 - [ ] Cada integrante puede explicar su contribución, las decisiones, las pruebas, las métricas y los resultados
 
-## 6. Borrador de métricas propias de M6 (a validar en H1)
+## 6. Métricas propias de M6
+
+Ya implementadas en el servicio del Grupo 5 mediante el [PR de telemetría #3](https://github.com/FRRe-DS/2026-05-TPI/pull/3).
+Falta acordar la misma convención con el Grupo 12 y comprobar los datos reales en Grafana.
+Los nombres, etiquetas y unidades están en [docs/convencion-metricas.md](docs/convencion-metricas.md).
 
 | Métrica | Qué mide | Por qué sirve |
 |---|---|---|
-| Viajes por estado / transiciones por minuto | Cantidad de viajes en cada estado y tasa de transiciones | Muestra el flujo de negocio y detecta viajes estancados |
-| Tasa de cancelación (por actor: cliente, conductor, operador) | % de viajes cancelados sobre los iniciados | Indicador de calidad del servicio y de problemas aguas arriba |
-| Duración de las operaciones del ciclo de vida (por ejemplo, tiempo entre arribo e inicio, o latencia de `start` incluida la validación con M8) | Tiempo de cada transición | Detecta cuellos de botella y dependencias lentas |
-
-_Alternativas a evaluar:_ rechazos por transición inválida, conflictos de concurrencia, duración total del viaje.
+| `m6_trip_transitions` | Cuenta transiciones de estado ya guardadas; el dashboard muestra transiciones por minuto y por estado destino | Permite observar el flujo de viajes |
+| `m6_trip_cancellations` | Cuenta cancelaciones por rol y motivo; el dashboard deriva una tasa sobre los viajes creados | Permite observar dónde se interrumpe el flujo |
+| `m6_transition_duration` | Mide en segundos la ejecución de cada operación, incluida la validación del QR durante `start` | Permite detectar operaciones lentas |
 
 ## 7. Bitácora
 

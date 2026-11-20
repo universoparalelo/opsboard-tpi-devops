@@ -44,7 +44,7 @@ Convenciones: errores `problem+json`, `ETag`/`If-Match`, `Idempotency-Key` (Redi
 
 ## Estado de observabilidad
 - Antes de nuestro trabajo: ninguna (solo logs y `/health/details`).
-- **Con nuestro trabajo local (sin commit, sin PR todavía):** OpenTelemetry (trazas HTTP/Express/Nest/pg/ioredis/amqplib/undici, métricas del runtime, 3 métricas `m6_*`, logs con `trace_id`). Ver `2026-05-TPI/m6-viajes/src/telemetria/`. Se activa solo con `OTEL_EXPORTER_OTLP_ENDPOINT`.
+- **Integrado en `main` con el [PR de telemetría #3](https://github.com/FRRe-DS/2026-05-TPI/pull/3) (2026-11-18):** OpenTelemetry (trazas HTTP/Express/Nest/pg/ioredis/amqplib/undici, métricas del runtime, 3 métricas `m6_*`, logs con `trace_id`). Ver `m6-viajes/src/telemetria/`. Se activa solo con `OTEL_EXPORTER_OTLP_ENDPOINT`. Falta validar su exportación y visualización con tráfico real.
 
 ## Riesgos para nuestro plan
 - Despliegue: necesita PostgreSQL, RabbitMQ y Redis y un proceso permanente (outbox). No encaja en un entorno serverless sin adaptar.
