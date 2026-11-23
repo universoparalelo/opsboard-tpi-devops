@@ -26,7 +26,7 @@ Consigna completa: [`../TPIntegrador-DevOps-UTN-2026.md`](../TPIntegrador-DevOps
 | # | Integrante | Rol | Foco principal |
 |---|---|---|---|
 | 1 | _(completar)_ | Coordinación e integración | Contacto con Desarrollo, actas, issues, bitácora, informe final |
-| 2 | _(completar)_ | Instrumentación OpenTelemetry | SDK, exporter, APM, trazas y logs |
+| 2 | Cele | Instrumentación OpenTelemetry | SDK, exporter, APM, trazas y logs |
 | 3 | Philippe | Dashboard y métricas del módulo | 3 métricas propias, dashboard técnico y funcional |
 | 4 | Franco | CI/CD, Calidad y DevSecOps | Build, unitarios, E2E, SAST (SonarQube Cloud / Semgrep) y Quality Gates |
 | 5 | _(completar)_ | Cloud y k6 | Despliegue, scripts de carga, recursos y costos |
@@ -51,17 +51,17 @@ Consigna completa: [`../TPIntegrador-DevOps-UTN-2026.md`](../TPIntegrador-DevOps
 - [ ] Acordar la convención común de nombres de métricas y atributos (`service.name`, `grupo`) para que ambos repos sean comparables en un solo dashboard · Resp.: _ _ _
 - [ ] Contactar a los grupos de Desarrollo y acordar canal de comunicación · Resp.: _ _ _
 - [ ] Obtener permisos de escritura / fork en los repositorios originales · Resp.: _ _ _
-- [ ] Relevar funcionalidades, endpoints y dependencias del módulo (M5, M7, M8, etc.) · Resp.: _ _ _
-- [ ] Diagrama de arquitectura del módulo y sus integraciones · Resp.: _ _ _
+- [x] Relevar funcionalidades, endpoints y dependencias del módulo (M5, M7, M8, etc.) · [Relevamiento de G5 y G12](docs/relevamiento/README.md) · Resp.: Cele
+- [x] Diagrama de arquitectura del módulo y sus integraciones · [Mapa de integraciones](docs/relevamiento/README.md#3-mapa-de-integraciones-de-m6) y [diagrama de telemetría](docs/arquitectura.md) · Resp.: Cele
 - [ ] Acta del primer acuerdo Dev–DevOps (alcance, responsabilidades, forma de trabajo con PRs) · Resp.: _ _ _
 - [ ] Armar el backlog como issues en el repo o en un tablero · Resp.: _ _ _
 
 ### Propuestas técnicas
 - [ ] Elegir la plataforma APM / observabilidad (con plan gratuito) y justificar · Resp.: _ _ _
-- [ ] Definir las **3 métricas propias de M6** y qué mide cada una (ver borrador en la sección 6) · Resp.: _ _ _
+- [x] Definir las **3 métricas propias de M6** y qué mide cada una · [Sección 6](#6-métricas-propias-de-m6) y [convención](docs/convencion-metricas.md) · Resp.: Cele
 - [x] Elegir la herramienta SAST (SonarQube Cloud, Semgrep o CodeQL) · Resp.: Franco ([`docs/ci-sast-estrategia.md`](docs/ci-sast-estrategia.md))
 - [x] Proponer el flujo E2E a automatizar · Resp.: Franco ([`docs/ci-sast-estrategia.md`](docs/ci-sast-estrategia.md))
-- [ ] Proponer el flujo de k6 (endpoints, datos de prueba, duración, rampa de usuarios) · Resp.: _ _ _
+- [x] Proponer el flujo de k6 (endpoints, datos de prueba, duración, rampa de usuarios) · [Escenario](k6/escenarios/ciclo-de-viaje.js) y [decisiones de diseño](bitacora/2026-11-13-observabilidad-local-y-telemetria-g5.md#decisiones-de-diseño-a-acordar-con-desarrollo); propuesta interna, falta acordarla con Desarrollo · Resp.: Cele
 - [ ] Elegir el entorno cloud y estimar costos / cuotas · Resp.: _ _ _
 
 ### Cierre del hito
@@ -81,9 +81,9 @@ Consigna completa: [`../TPIntegrador-DevOps-UTN-2026.md`](../TPIntegrador-DevOps
 - [ ] Documentar el entorno: recursos, región, límites del plan · Resp.: _ _ _
 
 ### OpenTelemetry y dashboard
-- [ ] Instrumentar el servicio con OpenTelemetry (trazas, métricas, logs) · PR: _ _ _ · Resp.: _ _ _
-- [ ] Configurar el exporter hacia la plataforma APM elegida · Resp.: _ _ _
-- [ ] Implementar las 3 métricas propias de M6 · PR: _ _ _ · Resp.: _ _ _
+- [ ] Instrumentar el servicio con OpenTelemetry (trazas, métricas, logs) · **Grupo 5 hecho:** [PR #3](https://github.com/FRRe-DS/2026-05-TPI/pull/3), mergeado el 2026-11-18 · **Grupo 12 pendiente:** [PR #28](https://github.com/FRRe-DS/2026-12-TPI/pull/28) abierto · Resp.: Cele
+- [ ] Configurar el exporter hacia la plataforma APM elegida · Hoy exporta por OTLP a un [stack local](observabilidad/) (Collector, Jaeger, Prometheus, Loki y Grafana); falta elegir la plataforma de la cátedra, que solo exige cambiar el endpoint · Resp.: Cele
+- [ ] Implementar las 3 métricas propias de M6 · **Grupo 5 hecho:** [PR #3](https://github.com/FRRe-DS/2026-05-TPI/pull/3) · **Grupo 12 pendiente:** [PR #28](https://github.com/FRRe-DS/2026-12-TPI/pull/28) abierto · Resp.: Cele
 - [ ] Dashboard con indicadores técnicos para ambos grupos: requests, latencia, errores, CPU y memoria · [Grupo 5 validado localmente, incluido PostgreSQL p95 con tráfico reciente](bitacora/2026-11-20-validacion-metricas-g5.md); falta Grupo 12 · Resp.: Philippe
 - [ ] Dashboard con las 3 métricas propias para ambos grupos · [Grupo 5 validado localmente con tráfico real](bitacora/2026-11-20-validacion-metricas-g5.md); falta Grupo 12 · Resp.: Philippe
 - [x] Demostrar el uso de una traza y su log para investigar una operación · [Consulta de viaje del Grupo 5 validada localmente](bitacora/2026-11-20-validacion-metricas-g5.md) · Resp.: Philippe
@@ -171,6 +171,16 @@ Formato mínimo de cada entrada (una por tarea relevante, en orden cronológico)
 
 <!-- Agregar las entradas nuevas debajo, de la más antigua a la más reciente -->
 
+### 2026-11-13 · Cele · M6
+- Objetivo: tener un entorno local donde M6 envíe trazas, métricas y logs, verlos en un dashboard y generar carga con k6.
+- Tarea ejecutada: stack local de observabilidad (OpenTelemetry Collector, Jaeger, Prometheus, Loki y Grafana), instrumentación OpenTelemetry del servicio del Grupo 5, dashboard de Grafana, escenario y lanzador de k6, corrida de humo con 50 VUs y relevamiento de los repos del Grupo 5 y del Grupo 12.
+- Decisiones / acuerdos con Desarrollo: ninguno cerrado. Quedan a acordar la convención de métricas, el diseño del escenario de carga (un usuario nuevo por iteración y varios tokens `SYSTEM`, por los límites de pedidos de los servicios) y el despliegue.
+- Repositorio / issue / PR: `opsboard-tpi-devops` · commits `4f387c5`, `cd68f9b` y `b6abebc`.
+- Evidencia (URL, captura o reporte): [entrada detallada](bitacora/2026-11-13-observabilidad-local-y-telemetria-g5.md), [stack](observabilidad/), [dashboard](dashboards/m6-observabilidad.json), [escenario k6](k6/escenarios/ciclo-de-viaje.js) y [relevamiento](docs/relevamiento/README.md).
+- Resultado: trazas, métricas y logs del Grupo 5 llegan y se correlacionan en el entorno local. La corrida de 50 VUs completó 5306 solicitudes sin fallas (p95 396 ms), tomadas de la consola de k6; el resumen JSON no se guardó por un error de permisos ya corregido.
+- Dificultad o bloqueo: logs que no llegaban a Loki (registro global de `api-logs` distinto del de `api`), trazas sueltas del relevador de eventos, y el selector "All" de Grafana rechazado por Loki. Todos resueltos. Las pruebas son de funcionamiento, no mediciones válidas: k6 y el servicio compartían la misma máquina.
+- Siguiente acción: abrir el PR de telemetría al Grupo 5 y validar con 100 VUs.
+
 ### 2026-11-16 · Franco · M6 (Parte 1)
 - Objetivo: Definir la estrategia de CI/CD, Quality Gates y herramienta SAST para G5 y G12, y preparar los pipelines de integración continua.
 - Tarea ejecutada: Relevamiento de `.github/workflows/m6-viajes.yml` (G5) y `backend/package.json` + `vitest.integration.config.ts` (G12); redacción de [`docs/ci-sast-estrategia.md`](docs/ci-sast-estrategia.md).
@@ -193,6 +203,16 @@ Formato mínimo de cada entrada (una por tarea relevante, en orden cronológico)
 - Resultado: Pipeline de Grupo 12 validado de punta a punta en local; confirmado que Semgrep CE no detecta JWT sin verificación de firma (`auth.middleware.ts`) ni panel `/api/*` abierto, por lo que se registra como deuda de seguridad a tratar con G12.
 - Dificultad o bloqueo: Grupo 12 no incluye `@vitest/coverage-v8` en `package.json`; se propondrá a Desarrollo sumarlo para reportar cobertura.
 - Siguiente acción: Revisar/pushear actualización de `opsboard-tpi-devops`, enviar propuesta de PR a Agostina (G12) y continuar con la validación local de Grupo 5 (`test:infra`, `test:cov`, Semgrep y rama `telemetria`).
+
+### 2026-11-16 · Cele · M6
+- Objetivo: validar el entorno con una corrida de 100 VUs y entregar la instrumentación del Grupo 5 al repositorio original.
+- Tarea ejecutada: corrida local de 100 VUs; controles previos al PR reproduciendo el CI del Grupo 5 (tipos, 74 unitarios, 79 de integración con infraestructura real, `npm audit` y construcción de la imagen Docker); rama `telemetria` en cuatro commits y pull request desde un fork.
+- Decisiones / acuerdos con Desarrollo: el Grupo 5 aceptó el PR; falta acordar con ambos grupos la convención de nombres de métricas y atributos.
+- Repositorio / issue / PR: [FRRe-DS/2026-05-TPI#3](https://github.com/FRRe-DS/2026-05-TPI/pull/3), mergeado el 2026-11-18.
+- Evidencia (URL, captura o reporte): [entrada detallada](bitacora/2026-11-16-prueba-100vu-y-pr-telemetria-g5.md) y [resumen de k6 con 100 VUs](resultados/grupo5/100vu/resumen-grupo5-100vu-20261116-200911.json).
+- Resultado: instrumentación del Grupo 5 integrada. En la corrida de 100 VUs: 7691 solicitudes (94,5 req/s), 0 % de fallas, latencia p50 484 ms, p95 1187 ms y p99 1528 ms; con 50 VUs el p95 había sido 396 ms.
+- Dificultad o bloqueo: k6 y el servicio comparten recursos en la misma máquina, así que las cifras no son mediciones válidas del servicio. El Grupo 12 no está instrumentado en el repo original (PR #28 abierto).
+- Siguiente acción: revisar el PR de telemetría del Grupo 12, acordar la convención de métricas y definir con el equipo de cloud dónde correr k6.
 
 ### 2026-11-20 · Philippe · M6
 - Objetivo: validar localmente las tres métricas propias del Grupo 5 en Grafana con operaciones reales de viajes.
