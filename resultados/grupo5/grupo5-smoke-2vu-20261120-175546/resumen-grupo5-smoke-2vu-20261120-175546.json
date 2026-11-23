@@ -1,0 +1,185 @@
+{
+    "root_group": {
+        "name": "",
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {},
+        "checks": {
+                "crear viaje: 201": {
+                    "name": "crear viaje: 201",
+                    "path": "::crear viaje: 201",
+                    "id": "b8d1a69e84ad302f9c260f8d1e8bb595",
+                    "passes": 41,
+                    "fails": 0
+                },
+                "arribo: 200": {
+                    "id": "2b8627ccfaace1bfbe4dd3a8d14d0c16",
+                    "passes": 41,
+                    "fails": 0,
+                    "name": "arribo: 200",
+                    "path": "::arribo: 200"
+                },
+                "inicio: 200": {
+                    "passes": 37,
+                    "fails": 0,
+                    "name": "inicio: 200",
+                    "path": "::inicio: 200",
+                    "id": "47820626c0a51593f8446a9b4f2c4061"
+                },
+                "finalizar: 200": {
+                    "name": "finalizar: 200",
+                    "path": "::finalizar: 200",
+                    "id": "7bf663c08f0a52cf8590f8f76391f0bf",
+                    "passes": 37,
+                    "fails": 0
+                },
+                "cancelar: 200": {
+                    "name": "cancelar: 200",
+                    "path": "::cancelar: 200",
+                    "id": "8a8fbc166a2c668975e66bda07280d54",
+                    "passes": 4,
+                    "fails": 0
+                }
+            }
+    },
+    "metrics": {
+        "iterations": {
+            "count": 41,
+            "rate": 1.2225005178954231
+        },
+        "http_req_sending": {
+            "p(99)": 0.23869332999999976,
+            "max": 0.647778,
+            "avg": 0.0675437,
+            "min": 0.029342,
+            "med": 0.0564795,
+            "p(90)": 0.1003412,
+            "p(95)": 0.12690224999999997
+        },
+        "vus_max": {
+            "value": 2,
+            "min": 2,
+            "max": 2
+        },
+        "http_req_connecting": {
+            "min": 0,
+            "med": 0,
+            "p(90)": 0,
+            "p(95)": 0,
+            "p(99)": 0.22413305999999814,
+            "max": 0.550052,
+            "avg": 0.006854487500000001
+        },
+        "iteration_duration": {
+            "max": 1720.270041,
+            "avg": 1285.3086081707318,
+            "min": 824.435042,
+            "med": 1311.005816,
+            "p(90)": 1567.498616,
+            "p(95)": 1601.984064,
+            "p(99)": 1689.834935
+        },
+        "data_sent": {
+            "count": 80565,
+            "rate": 2402.2135176645065
+        },
+        "http_req_duration{expected_response:true}": {
+            "p(90)": 27.827034499999993,
+            "p(95)": 33.373562249999985,
+            "p(99)": 117.42156940999976,
+            "max": 170.20346,
+            "avg": 22.03838860625,
+            "min": 11.190246,
+            "med": 18.512161499999998
+        },
+        "http_req_failed": {
+            "passes": 0,
+            "fails": 160,
+            "thresholds": {
+                "rate<0.05": false
+            },
+            "value": 0
+        },
+        "http_req_tls_handshaking": {
+            "avg": 0,
+            "min": 0,
+            "med": 0,
+            "p(90)": 0,
+            "p(95)": 0,
+            "p(99)": 0,
+            "max": 0
+        },
+        "http_req_duration": {
+            "min": 11.190246,
+            "med": 18.512161499999998,
+            "p(90)": 27.827034499999993,
+            "p(95)": 33.373562249999985,
+            "p(99)": 117.42156940999976,
+            "max": 170.20346,
+            "avg": 22.03838860625,
+            "thresholds": {
+                "p(95)<1500": false
+            }
+        },
+        "vus": {
+            "value": 1,
+            "min": 0,
+            "max": 2
+        },
+        "m6_viajes_cancelados": {
+            "count": 4,
+            "rate": 0.11926834320930958
+        },
+        "http_req_blocked": {
+            "p(99)": 0.5920794099999993,
+            "max": 1.057708,
+            "avg": 0.028288574999999976,
+            "min": 0.006478,
+            "med": 0.0133615,
+            "p(90)": 0.019249,
+            "p(95)": 0.03263154999999999
+        },
+        "http_req_receiving": {
+            "avg": 0.16537546875,
+            "min": 0.09259,
+            "med": 0.14742349999999999,
+            "p(90)": 0.2262313,
+            "p(95)": 0.25441959999999997,
+            "p(99)": 0.3430156399999998,
+            "max": 0.505789
+        },
+        "http_req_waiting": {
+            "p(99)": 117.12849063999977,
+            "max": 169.839052,
+            "avg": 21.805469437499994,
+            "min": 11.030135,
+            "med": 18.2878185,
+            "p(90)": 27.570361199999997,
+            "p(95)": 33.14677084999999
+        },
+        "checks": {
+            "passes": 160,
+            "fails": 0,
+            "value": 1
+        },
+        "data_received": {
+            "count": 271013,
+            "rate": 8080.817874546155
+        },
+        "m6_viajes_completados": {
+            "count": 37,
+            "rate": 1.1032321746861136
+        },
+        "http_reqs": {
+            "count": 160,
+            "rate": 4.770733728372384
+        }
+    },
+    "setup_data": {
+        "sistemas": [
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtNS1kZXNwYWNoby0xIiwicm9sZSI6IlNZU1RFTSIsImlhdCI6MTc5NTIwODE0NywiZXhwIjoxNzk1MjM2OTQ3fQ.3W9SxqkytED8leiGccIXcEnbCZykbmZiwpY-Y7I9MRg",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtNS1kZXNwYWNoby0yIiwicm9sZSI6IlNZU1RFTSIsImlhdCI6MTc5NTIwODE0NywiZXhwIjoxNzk1MjM2OTQ3fQ.N0sAGQB4SeQWVb2dmHdqMcEowY4Dt359DZ7nhe4NPu4",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtNS1kZXNwYWNoby0zIiwicm9sZSI6IlNZU1RFTSIsImlhdCI6MTc5NTIwODE0NywiZXhwIjoxNzk1MjM2OTQ3fQ.IVcPKrW0z2xIgl-mOc0kfdIvF9yazfySoY6As08NQgY"
+        ]
+    }
+}

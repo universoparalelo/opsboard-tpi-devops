@@ -1,0 +1,143 @@
+
+         /\      Grafana   /‾‾/
+    /\  /  \     |\  __   /  /
+   /  \/    \    | |/ /  /   ‾‾\
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/
+
+     execution: local
+        script: /k6/escenarios/ciclo-de-viaje.js
+        output: Prometheus remote write (http://localhost:9090/api/v1/write)
+
+     scenarios: (100.00%) 1 scenario, 2 max VUs, 48s max duration (incl. graceful stop):
+              * ciclo_de_viaje: Up to 2 looping VUs for 33s over 3 stages (gracefulRampDown: 15s, gracefulStop: 30s)
+
+
+running (01.0s), 0/2 VUs, 0 complete and 0 interrupted iterations
+ciclo_de_viaje   [   3% ] 0/2 VUs  01.0s/33.0s
+
+running (02.0s), 1/2 VUs, 0 complete and 0 interrupted iterations
+ciclo_de_viaje   [   6% ] 1/2 VUs  02.0s/33.0s
+
+running (03.0s), 1/2 VUs, 1 complete and 0 interrupted iterations
+ciclo_de_viaje   [   9% ] 1/2 VUs  03.0s/33.0s
+
+running (04.0s), 2/2 VUs, 2 complete and 0 interrupted iterations
+ciclo_de_viaje   [  12% ] 2/2 VUs  04.0s/33.0s
+
+running (05.0s), 2/2 VUs, 3 complete and 0 interrupted iterations
+ciclo_de_viaje   [  15% ] 2/2 VUs  05.0s/33.0s
+
+running (06.0s), 2/2 VUs, 5 complete and 0 interrupted iterations
+ciclo_de_viaje   [  18% ] 2/2 VUs  06.0s/33.0s
+
+running (07.0s), 2/2 VUs, 7 complete and 0 interrupted iterations
+ciclo_de_viaje   [  21% ] 2/2 VUs  07.0s/33.0s
+
+running (08.0s), 2/2 VUs, 8 complete and 0 interrupted iterations
+ciclo_de_viaje   [  24% ] 2/2 VUs  08.0s/33.0s
+
+running (09.0s), 2/2 VUs, 10 complete and 0 interrupted iterations
+ciclo_de_viaje   [  27% ] 2/2 VUs  09.0s/33.0s
+
+running (10.0s), 2/2 VUs, 12 complete and 0 interrupted iterations
+ciclo_de_viaje   [  30% ] 2/2 VUs  10.0s/33.0s
+
+running (11.0s), 2/2 VUs, 14 complete and 0 interrupted iterations
+ciclo_de_viaje   [  33% ] 2/2 VUs  11.0s/33.0s
+
+running (12.0s), 2/2 VUs, 15 complete and 0 interrupted iterations
+ciclo_de_viaje   [  36% ] 2/2 VUs  12.0s/33.0s
+
+running (13.0s), 2/2 VUs, 16 complete and 0 interrupted iterations
+ciclo_de_viaje   [  39% ] 2/2 VUs  13.0s/33.0s
+
+running (14.0s), 2/2 VUs, 18 complete and 0 interrupted iterations
+ciclo_de_viaje   [  42% ] 2/2 VUs  14.0s/33.0s
+
+running (15.0s), 2/2 VUs, 20 complete and 0 interrupted iterations
+ciclo_de_viaje   [  45% ] 2/2 VUs  15.0s/33.0s
+
+running (16.0s), 2/2 VUs, 21 complete and 0 interrupted iterations
+ciclo_de_viaje   [  48% ] 2/2 VUs  16.0s/33.0s
+
+running (17.0s), 2/2 VUs, 22 complete and 0 interrupted iterations
+ciclo_de_viaje   [  52% ] 2/2 VUs  17.0s/33.0s
+
+running (18.0s), 2/2 VUs, 24 complete and 0 interrupted iterations
+ciclo_de_viaje   [  55% ] 2/2 VUs  18.0s/33.0s
+
+running (19.0s), 2/2 VUs, 26 complete and 0 interrupted iterations
+ciclo_de_viaje   [  58% ] 2/2 VUs  19.0s/33.0s
+
+running (20.0s), 2/2 VUs, 28 complete and 0 interrupted iterations
+ciclo_de_viaje   [  61% ] 2/2 VUs  20.0s/33.0s
+
+running (21.0s), 2/2 VUs, 30 complete and 0 interrupted iterations
+ciclo_de_viaje   [  64% ] 2/2 VUs  21.0s/33.0s
+
+running (22.0s), 2/2 VUs, 30 complete and 0 interrupted iterations
+ciclo_de_viaje   [  67% ] 2/2 VUs  22.0s/33.0s
+
+running (23.0s), 2/2 VUs, 32 complete and 0 interrupted iterations
+ciclo_de_viaje   [  70% ] 2/2 VUs  23.0s/33.0s
+
+running (24.0s), 1/2 VUs, 34 complete and 0 interrupted iterations
+ciclo_de_viaje   [  73% ] 1/2 VUs  24.0s/33.0s
+
+running (25.0s), 1/2 VUs, 35 complete and 0 interrupted iterations
+ciclo_de_viaje   [  76% ] 1/2 VUs  25.0s/33.0s
+
+running (26.0s), 1/2 VUs, 35 complete and 0 interrupted iterations
+ciclo_de_viaje   [  79% ] 1/2 VUs  26.0s/33.0s
+
+running (27.0s), 1/2 VUs, 36 complete and 0 interrupted iterations
+ciclo_de_viaje   [  82% ] 1/2 VUs  27.0s/33.0s
+
+running (28.0s), 1/2 VUs, 37 complete and 0 interrupted iterations
+ciclo_de_viaje   [  85% ] 1/2 VUs  28.0s/33.0s
+
+running (29.0s), 1/2 VUs, 37 complete and 0 interrupted iterations
+ciclo_de_viaje   [  88% ] 1/2 VUs  29.0s/33.0s
+
+running (30.0s), 1/2 VUs, 38 complete and 0 interrupted iterations
+ciclo_de_viaje   [  91% ] 1/2 VUs  30.0s/33.0s
+
+running (31.0s), 1/2 VUs, 39 complete and 0 interrupted iterations
+ciclo_de_viaje   [  94% ] 1/2 VUs  31.0s/33.0s
+
+running (32.0s), 1/2 VUs, 39 complete and 0 interrupted iterations
+ciclo_de_viaje   [  97% ] 1/2 VUs  32.0s/33.0s
+
+running (33.0s), 1/2 VUs, 40 complete and 0 interrupted iterations
+ciclo_de_viaje   [ 100% ] 1/2 VUs  33.0s/33.0s
+
+     ✓ crear viaje: 201
+     ✓ arribo: 200
+     ✓ inicio: 200
+     ✓ finalizar: 200
+     ✓ cancelar: 200
+
+     checks.........................: 100.00% 160 out of 160
+     data_received..................: 271 kB  8.1 kB/s
+     data_sent......................: 81 kB   2.4 kB/s
+     http_req_blocked...............: avg=28.28µs  min=6.47µs   med=13.36µs  p(90)=19.24µs  p(95)=32.63µs  p(99)=592.07µs max=1.05ms
+     http_req_connecting............: avg=6.85µs   min=0s       med=0s       p(90)=0s       p(95)=0s       p(99)=224.13µs max=550.05µs
+   ✓ http_req_duration..............: avg=22.03ms  min=11.19ms  med=18.51ms  p(90)=27.82ms  p(95)=33.37ms  p(99)=117.42ms max=170.2ms
+       { expected_response:true }...: avg=22.03ms  min=11.19ms  med=18.51ms  p(90)=27.82ms  p(95)=33.37ms  p(99)=117.42ms max=170.2ms
+   ✓ http_req_failed................: 0.00%   0 out of 160
+     http_req_receiving.............: avg=165.37µs min=92.59µs  med=147.42µs p(90)=226.23µs p(95)=254.41µs p(99)=343.01µs max=505.78µs
+     http_req_sending...............: avg=67.54µs  min=29.34µs  med=56.47µs  p(90)=100.34µs p(95)=126.9µs  p(99)=238.69µs max=647.77µs
+     http_req_tls_handshaking.......: avg=0s       min=0s       med=0s       p(90)=0s       p(95)=0s       p(99)=0s       max=0s
+     http_req_waiting...............: avg=21.8ms   min=11.03ms  med=18.28ms  p(90)=27.57ms  p(95)=33.14ms  p(99)=117.12ms max=169.83ms
+     http_reqs......................: 160     4.770734/s
+     iteration_duration.............: avg=1.28s    min=824.43ms med=1.31s    p(90)=1.56s    p(95)=1.6s     p(99)=1.68s    max=1.72s
+     iterations.....................: 41      1.222501/s
+     m6_viajes_cancelados...........: 4       0.119268/s
+     m6_viajes_completados..........: 37      1.103232/s
+     vus............................: 1       min=0          max=2
+     vus_max........................: 2       min=2          max=2
+
+
+running (33.5s), 0/2 VUs, 41 complete and 0 interrupted iterations
+ciclo_de_viaje ✓ [ 100% ] 0/2 VUs  33s

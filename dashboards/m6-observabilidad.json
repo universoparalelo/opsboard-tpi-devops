@@ -489,7 +489,7 @@
       "id": 11,
       "type": "timeseries",
       "title": "Latencia vista por k6 (p50 / p95 / p99)",
-      "description": "Tiempo de respuesta medido desde el cliente. Si es mucho mayor que el del servicio (panel de abajo), el cuello está en la red o en el generador de carga.",
+      "description": "Tiempo de respuesta medido desde el cliente. Prometheus recibe esta métrica de k6 en segundos. El panel promedia los percentiles de las series por corrida; el percentil global exacto está en el resumen JSON de k6.",
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus"
@@ -531,7 +531,7 @@
       ],
       "fieldConfig": {
         "defaults": {
-          "unit": "ms",
+          "unit": "s",
           "custom": {
             "lineWidth": 1,
             "fillOpacity": 20,
@@ -1000,7 +1000,7 @@
       "id": 19,
       "type": "timeseries",
       "title": "Latencia de PostgreSQL p95",
-      "description": "Tiempo de las consultas a la base. Si sube junto con la latencia HTTP, el cuello de botella es la base.",
+      "description": "p95 de las consultas a PostgreSQL calculado con incrementos del histograma durante 1 minuto. Sin consultas recientes la serie puede mostrar No data, aunque las trazas históricas sigan en Jaeger.",
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus"

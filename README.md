@@ -84,7 +84,7 @@ Consigna completa: [`../TPIntegrador-DevOps-UTN-2026.md`](../TPIntegrador-DevOps
 - [ ] Instrumentar el servicio con OpenTelemetry (trazas, métricas, logs) · PR: _ _ _ · Resp.: _ _ _
 - [ ] Configurar el exporter hacia la plataforma APM elegida · Resp.: _ _ _
 - [ ] Implementar las 3 métricas propias de M6 · PR: _ _ _ · Resp.: _ _ _
-- [ ] Dashboard con indicadores técnicos para ambos grupos: requests, latencia, errores, CPU y memoria · [Grupo 5 validado localmente](bitacora/2026-11-20-validacion-metricas-g5.md); falta Grupo 12 y verificar PostgreSQL p95 · Resp.: Philippe
+- [ ] Dashboard con indicadores técnicos para ambos grupos: requests, latencia, errores, CPU y memoria · [Grupo 5 validado localmente, incluido PostgreSQL p95 con tráfico reciente](bitacora/2026-11-20-validacion-metricas-g5.md); falta Grupo 12 · Resp.: Philippe
 - [ ] Dashboard con las 3 métricas propias para ambos grupos · [Grupo 5 validado localmente con tráfico real](bitacora/2026-11-20-validacion-metricas-g5.md); falta Grupo 12 · Resp.: Philippe
 - [x] Demostrar el uso de una traza y su log para investigar una operación · [Consulta de viaje del Grupo 5 validada localmente](bitacora/2026-11-20-validacion-metricas-g5.md) · Resp.: Philippe
 
@@ -108,7 +108,7 @@ Consigna completa: [`../TPIntegrador-DevOps-UTN-2026.md`](../TPIntegrador-DevOps
 
 ### Preparación
 - [ ] Acordar con Desarrollo los escenarios, duración y rampa de usuarios · Resp.: _ _ _
-- [ ] Script k6 con operaciones reales de M6 · Archivo: _ _ _ · Resp.: _ _ _
+- [x] Script k6 con operaciones reales de M6 · [Escenario](k6/escenarios/ciclo-de-viaje.js) y [prueba breve local con Grupo 5](bitacora/2026-11-20-validacion-metricas-g5.md) · Resp.: Philippe
 - [ ] Definir dónde corre el generador de carga y verificar que no limite los resultados · Resp.: _ _ _
 - [ ] Confirmar autorización de uso, datos de prueba, cuotas y costos · Resp.: _ _ _
 
@@ -205,6 +205,6 @@ Formato mínimo de cada entrada (una por tarea relevante, en orden cronológico)
 - Hay dos repos de M6 (Grupo 5 y Grupo 12) con stacks distintos (NestJS vs. Node nativo). La instrumentación y el CI se duplican, y las métricas deben quedar con los mismos nombres para ser comparables.
 - Las corridas de k6 se multiplican: 4 escenarios x 2 repos. Contar el consumo de cuota (virtual user hours) antes de empezar.
 - M6 depende de otros módulos (M5, M7, M8) que pueden no estar desplegados. Acordar mocks o stubs y registrarlo.
-- Los repos todavía están sin desplegar. Hasta que lo estén, no se puede avanzar con k6 ni con la validación en cloud.
+- Los repos todavía están sin desplegar: la [prueba breve de k6 del Grupo 5](bitacora/2026-11-20-validacion-metricas-g5.md) sólo valida el flujo local. La comparativa en cloud necesita entornos desplegados y acordados.
 - El plan gratuito del APM y del cloud puede limitar las pruebas de 500 y 1000 VUs. Revisar cuotas antes de ejecutar.
 - Correr k6 desde una máquina local puede limitar los resultados (red, CPU). Documentarlo y verificarlo.

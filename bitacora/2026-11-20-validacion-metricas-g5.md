@@ -49,3 +49,31 @@ Se consultó sin modificar datos el viaje de prueba `48f83514-ea48-45f0-9d10-ad5
 - **Resultado:** comprobada en la interfaz la navegación **log → traza** para una operación real del módulo M6, con visibilidad de la consulta a PostgreSQL. Esto demuestra trazabilidad local; la métrica agregada **PostgreSQL p95** del dashboard sigue pendiente de validación.
 
 No se guardaron JWT, secretos ni datos de producción en esta evidencia.
+
+## Ampliación de las 17:54–17:58 (-03): PostgreSQL p95 y prueba breve de k6
+
+Se continuó desde `main` en `d98c9d4`, sin cambios previos en el árbol de trabajo. El servicio local `m6-grupo5` y el stack de observabilidad seguían activos. Esta ampliación usa únicamente el Grupo 5; el Grupo 12 no fue validado.
+
+### Diagnóstico del panel PostgreSQL p95
+
+El panel consulta `histogram_quantile(0.95, sum by (le, service_name) (rate(db_client_operation_duration_seconds_bucket{service_name=~"$servicio"}[1m])))`. Prometheus sí tenía las series `db_client_operation_duration_seconds_bucket`, `_count` y `_sum` con `service_name="m6-grupo5"` y `db_system_name="postgresql"`. Antes de generar tráfico nuevo, la consulta devolvía `NaN`: los contadores estaban presentes, pero no aumentaban en el minuto considerado. Los spans `pg.query:SELECT` de Jaeger prueban que hubo consultas en una traza anterior; por sí solos no aportan incrementos recientes al cálculo del panel.
+
+Se repitió cinco veces `GET /trips/48f83514-ea48-45f0-9d10-ad5e9f230b52` con un token local de rol `SYSTEM`; las cinco respuestas fueron **200**. La misma consulta PromQL devolvió **0,004733 s (4,73 ms)** y el panel empezó a dibujar la serie. Durante la carga posterior, Grafana mostró aproximadamente **4,79 ms** de media en esa curva; la [consulta de Prometheus conservada](../resultados/grupo5/grupo5-smoke-2vu-20261120-175546/prometheus-dashboard.json) contiene puntos finitos y un máximo de **4,93 ms** en el intervalo capturado. La causa comprobada del `No data` inicial fue la ausencia de consultas recientes para el `rate(...[1m])`, no la falta de instrumentación de PostgreSQL. Se aclaró esta condición en la descripción del panel.
+
+### Prueba local de k6
+
+Se ejecutó el [escenario de ciclo de viaje](../k6/escenarios/ciclo-de-viaje.js) contra `http://localhost:3000`, con **2 VUs máximo**, rampa de **3 s**, tramo a 2 VUs de **10 s** y bajada de **20 s**. La corrida `grupo5-smoke-2vu-20261120-175546` duró aproximadamente **33,5 s** (17:55:46–17:56:20, -03) y envió telemetría por Prometheus remote write. Fue una prueba pequeña de funcionamiento local, no una de las corridas comparativas de 50/100/500/1000 VUs.
+
+| Medida | Resultado del resumen de k6 |
+|---|---:|
+| Ciclos completos | 41 |
+| Solicitudes HTTP | 160; 4,77 req/s en toda la corrida |
+| Checks | 160/160 (100 %) |
+| Solicitudes fallidas | 0/160 (0 %) |
+| Latencia HTTP desde k6 | p50 18,51 ms; p95 33,37 ms; p99 117,42 ms |
+| Viajes completados / cancelados | 37 / 4 |
+
+En el dashboard filtrado por `Servicio=m6-grupo5` y `Corrida k6=grupo5-smoke-2vu-20261120-175546` se vieron usuarios virtuales, req/s, latencias, porcentaje fallido y viajes completados/cancelados. También se observaron las curvas HTTP, CPU, memoria, transiciones y PostgreSQL p95 del servicio. Al contrastar los paneles con el [resumen JSON](../resultados/grupo5/grupo5-smoke-2vu-20261120-175546/resumen-grupo5-smoke-2vu-20261120-175546.json) se detectó que Prometheus recibe las duraciones de k6 en **segundos**, mientras el panel las formateaba como milisegundos. Se corrigió la unidad a segundos en el [dashboard versionado](../dashboards/m6-observabilidad.json), y Grafana pasó de mostrar valores como `0,035 ms` a `35,0 ms` para el p95 medio de sus series. Ese valor del gráfico promedia percentiles de series por corrida y tiempo; el **p95 global de la corrida** es el **33,37 ms** del resumen de k6.
+
+- **Evidencia reproducible:** [salida completa de k6](../resultados/grupo5/grupo5-smoke-2vu-20261120-175546/salida-k6.txt), [resumen JSON](../resultados/grupo5/grupo5-smoke-2vu-20261120-175546/resumen-grupo5-smoke-2vu-20261120-175546.json) y [series consultadas a Prometheus](../resultados/grupo5/grupo5-smoke-2vu-20261120-175546/prometheus-dashboard.json). Las series del snapshot están filtradas al Grupo 5 o al `testid` de esta corrida; no incluyen credenciales.
+- **Pendiente:** validar el Grupo 12 en el dashboard y acordar en la reunión la integración de los dos entornos con los otros grupos. Las corridas formales de 50/100/500/1000 VUs y el despliegue cloud siguen pendientes. CI/SAST corresponde a Franco.
