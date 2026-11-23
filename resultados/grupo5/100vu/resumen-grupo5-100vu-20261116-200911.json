@@ -1,0 +1,189 @@
+{
+    "metrics": {
+        "http_req_duration": {
+            "med": 484.438144,
+            "p(90)": 970.762421,
+            "p(95)": 1187.057132,
+            "p(99)": 1528.2349708000017,
+            "max": 1678.874533,
+            "avg": 523.8541085273691,
+            "min": 9.361954,
+            "thresholds": {
+                "p(95)<1500": false
+            }
+        },
+        "http_req_receiving": {
+            "p(99)": 2.0648050999999996,
+            "max": 10.379342,
+            "avg": 0.28541832791574484,
+            "min": 0.042115,
+            "med": 0.147436,
+            "p(90)": 0.589884,
+            "p(95)": 0.9582299999999999
+        },
+        "data_received": {
+            "count": 13036991,
+            "rate": 160187.7725447665
+        },
+        "http_req_blocked": {
+            "p(90)": 0.024794,
+            "p(95)": 0.059121,
+            "p(99)": 0.9524330000000033,
+            "max": 10.935982,
+            "avg": 0.050219756728644045,
+            "min": 0.007682,
+            "med": 0.014527
+        },
+        "http_req_tls_handshaking": {
+            "p(99)": 0,
+            "max": 0,
+            "avg": 0,
+            "min": 0,
+            "med": 0,
+            "p(90)": 0,
+            "p(95)": 0
+        },
+        "checks": {
+            "passes": 7691,
+            "fails": 0,
+            "value": 1
+        },
+        "iterations": {
+            "count": 2005,
+            "rate": 24.635783207356425
+        },
+        "http_req_waiting": {
+            "med": 484.058019,
+            "p(90)": 970.603462,
+            "p(95)": 1185.8491255,
+            "p(99)": 1528.0224131000018,
+            "max": 1678.163473,
+            "avg": 523.4313754139891,
+            "min": 9.202645
+        },
+        "iteration_duration": {
+            "min": 563.466364,
+            "med": 3160.685602,
+            "p(90)": 4691.561816400001,
+            "p(95)": 5151.116374199999,
+            "p(99)": 5838.0854804,
+            "max": 6299.069803,
+            "avg": 3178.5785463910215
+        },
+        "data_sent": {
+            "count": 3877774,
+            "rate": 47646.88258908896
+        },
+        "http_reqs": {
+            "count": 7691,
+            "rate": 94.50065269215874
+        },
+        "http_req_connecting": {
+            "avg": 0.010931510466779353,
+            "min": 0,
+            "med": 0,
+            "p(90)": 0,
+            "p(95)": 0,
+            "p(99)": 0.26104790000000017,
+            "max": 6.679607
+        },
+        "vus_max": {
+            "min": 100,
+            "max": 100,
+            "value": 100
+        },
+        "m6_viajes_cancelados": {
+            "count": 329,
+            "rate": 4.042480137266964
+        },
+        "http_req_failed": {
+            "passes": 0,
+            "fails": 7691,
+            "thresholds": {
+                "rate<0.05": false
+            },
+            "value": 0
+        },
+        "http_req_duration{expected_response:true}": {
+            "avg": 523.8541085273691,
+            "min": 9.361954,
+            "med": 484.438144,
+            "p(90)": 970.762421,
+            "p(95)": 1187.057132,
+            "p(99)": 1528.2349708000017,
+            "max": 1678.874533
+        },
+        "http_req_sending": {
+            "min": 0.016203,
+            "med": 0.04861,
+            "p(90)": 0.225449,
+            "p(95)": 0.542077,
+            "p(99)": 1.8036033000000014,
+            "max": 15.726295,
+            "avg": 0.13731478546352968
+        },
+        "vus": {
+            "value": 1,
+            "min": 1,
+            "max": 100
+        },
+        "m6_viajes_completados": {
+            "count": 1676,
+            "rate": 20.593303070089462
+        }
+    },
+    "setup_data": {
+        "sistemas": [
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtNS1kZXNwYWNoby0xIiwicm9sZSI6IlNZU1RFTSIsImlhdCI6MTc5NDg3MDU1MiwiZXhwIjoxNzk0ODk5MzUyfQ.mI3-6FbbCrsFAKskLz54jtByuej3myzOZwq3au8e7Kg",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtNS1kZXNwYWNoby0yIiwicm9sZSI6IlNZU1RFTSIsImlhdCI6MTc5NDg3MDU1MiwiZXhwIjoxNzk0ODk5MzUyfQ.cda7XyibF_OvqU2N0HWzAV2vTkbCeaI_2EXzXozxN5A",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtNS1kZXNwYWNoby0zIiwicm9sZSI6IlNZU1RFTSIsImlhdCI6MTc5NDg3MDU1MiwiZXhwIjoxNzk0ODk5MzUyfQ.rXd2zNTasd2CgdSOlamc7gUbkEKyCekbeZ8V2OENgRE",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtNS1kZXNwYWNoby00Iiwicm9sZSI6IlNZU1RFTSIsImlhdCI6MTc5NDg3MDU1MiwiZXhwIjoxNzk0ODk5MzUyfQ.xBR6vQnfsEzazq6n9L3WUdv-l_IRXeVKvkVYX5ePCKw",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtNS1kZXNwYWNoby01Iiwicm9sZSI6IlNZU1RFTSIsImlhdCI6MTc5NDg3MDU1MiwiZXhwIjoxNzk0ODk5MzUyfQ.7Tlk82dZ00O-NstnYvrL7Nnq581G_DhiATpE4Su2p5g",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtNS1kZXNwYWNoby02Iiwicm9sZSI6IlNZU1RFTSIsImlhdCI6MTc5NDg3MDU1MiwiZXhwIjoxNzk0ODk5MzUyfQ.gO2TgI7LV2-BLdJm2a7E_-eDFr88aFjr-pKWAhVYlho",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtNS1kZXNwYWNoby03Iiwicm9sZSI6IlNZU1RFTSIsImlhdCI6MTc5NDg3MDU1MiwiZXhwIjoxNzk0ODk5MzUyfQ.DQBORDxFTC5RFzAelPR3j7C2zRbIm9FyY4kktBVPquI"
+        ]
+    },
+    "root_group": {
+        "name": "",
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {},
+        "checks": {
+                "crear viaje: 201": {
+                    "name": "crear viaje: 201",
+                    "path": "::crear viaje: 201",
+                    "id": "b8d1a69e84ad302f9c260f8d1e8bb595",
+                    "passes": 2005,
+                    "fails": 0
+                },
+                "arribo: 200": {
+                    "path": "::arribo: 200",
+                    "id": "2b8627ccfaace1bfbe4dd3a8d14d0c16",
+                    "passes": 2005,
+                    "fails": 0,
+                    "name": "arribo: 200"
+                },
+                "inicio: 200": {
+                    "id": "47820626c0a51593f8446a9b4f2c4061",
+                    "passes": 1676,
+                    "fails": 0,
+                    "name": "inicio: 200",
+                    "path": "::inicio: 200"
+                },
+                "cancelar: 200": {
+                    "name": "cancelar: 200",
+                    "path": "::cancelar: 200",
+                    "id": "8a8fbc166a2c668975e66bda07280d54",
+                    "passes": 329,
+                    "fails": 0
+                },
+                "finalizar: 200": {
+                    "name": "finalizar: 200",
+                    "path": "::finalizar: 200",
+                    "id": "7bf663c08f0a52cf8590f8f76391f0bf",
+                    "passes": 1676,
+                    "fails": 0
+                }
+            }
+    }
+}
