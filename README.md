@@ -89,13 +89,17 @@ Consigna completa: [`../TPIntegrador-DevOps-UTN-2026.md`](../TPIntegrador-DevOps
 - [x] Demostrar el uso de una traza y su log para investigar una operación · [Consulta de viaje del Grupo 5 validada localmente](bitacora/2026-11-20-validacion-metricas-g5.md) · Resp.: Philippe
 
 ### Integración continua
-- [ ] Pipeline con compilación en el repo original · PR: _ _ _ · Resp.: _ _ _
-- [ ] Ejecución automática de tests unitarios con reporte · Resp.: _ _ _
-- [ ] Al menos 1 flujo **E2E** automatizado en un entorno controlado (por ejemplo, crear viaje → llegada → inicio → finalización) · Resp.: _ _ _
-- [ ] SAST integrado y primer análisis · Resp.: _ _ _
-- [ ] Quality Gates acordados con Desarrollo · Resp.: _ _ _
-- [ ] Disparadores configurados (PR y push) · Resp.: _ _ _
-- [ ] Evidencia de al menos un fallo detectado y su corrección · Link: _ _ _
+
+Responsable: Franco. [Bitácora con las corridas, reportes y acuerdos de G05 y G12](bitacora/2026-11-25-ci-g12-g05.md).
+
+| Verificación | G12 | G05 |
+|---|---|---|
+| Tipos, unitarios, integración y E2E | Integrado en [PR #27](https://github.com/FRRe-DS/2026-12-TPI/pull/27), con PostgreSQL, M8 simulado y reportes JUnit. | CI existente con build Docker y pruebas con PostgreSQL, RabbitMQ y Redis. El [PR #6](https://github.com/FRRe-DS/2026-05-TPI/pull/6) agrega reportes Jest y su [corrida pasó](https://github.com/FRRe-DS/2026-05-TPI/actions/runs/45633531528). |
+| SAST | Semgrep con SARIF disponible en la [corrida de la rama base](https://github.com/FRRe-DS/2026-12-TPI/actions/runs/45633634419). | Semgrep y SARIF en [PR #6](https://github.com/FRRe-DS/2026-05-TPI/pull/6), pendiente de revisión e integración. |
+| Disparadores | PR y push sobre `m6/base-de-datos` en cambios de M6. | PR y push en cambios de M6. Publicación en GHCR en pushes a `main`. |
+| Quality Gates | Propuesta de tipos y pruebas en verde. Pendiente acordar el bloqueo por hallazgos SAST y su aplicación. | Misma propuesta. Pendiente respuesta de G05. |
+
+- [x] Evidencia de un fallo detectado y su corrección en una rama de demostración de G12. [Corrida roja](https://github.com/FRRe-DS/2026-12-TPI/actions/runs/45633766132) y [corrida verde](https://github.com/FRRe-DS/2026-12-TPI/actions/runs/45633963994).
 
 ### Cierre del hito
 - [ ] Bitácora actualizada con enlaces verificables · Resp.: _ _ _
@@ -219,6 +223,10 @@ Formato mínimo de cada entrada (una por tarea relevante, en orden cronológico)
 - Tarea ejecutada: creación, finalización y cancelación de viajes de prueba; revisión del dashboard y de los contadores en Prometheus.
 - Evidencia y resultado: [entrada detallada de bitácora con capturas](bitacora/2026-11-20-validacion-metricas-g5.md). Se observaron 9 creaciones, 5 finalizaciones y 4 cancelaciones acumuladas; las tres métricas propias, indicadores técnicos HTTP/CPU/memoria y el vínculo log → traza de una consulta de viaje aparecieron en Grafana local.
 - Dificultad y siguiente acción: un arribo inicial recibió 403 por usar el rol SYSTEM; falta verificar PostgreSQL p95, k6 y el Grupo 12.
+
+### 2026-11-25 · Franco · M6
+
+- [CI y coordinación con G12 y G05](bitacora/2026-11-25-ci-g12-g05.md). G12 tiene CI integrado y verificado en su rama base. G05 está en revisión con los reportes del PR. Queda acordar los criterios de bloqueo con Desarrollo.
 
 ## 8. Riesgos y dependencias a registrar temprano
 

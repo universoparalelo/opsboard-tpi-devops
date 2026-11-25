@@ -3,6 +3,8 @@
 **Responsable:** Franco (Rol 4 · CI/CD, Calidad y DevSecOps)  
 **Repositorios objetivo:** `FRRe-DS/2026-05-TPI` (Grupo 5) y `FRRe-DS/2026-12-TPI` (Grupo 12)
 
+**Estado al 25/11/2026:** G12 tiene CI integrado en su rama base. G05 tiene un PR borrador sobre el CI existente. Las corridas, reportes y acuerdos se registran en la [bitácora de CI](../bitacora/2026-11-25-ci-g12-g05.md).
+
 ---
 
 ## 1. Elección de Herramientas SAST/SCA y Justificación
@@ -14,29 +16,27 @@ Para cubrir el análisis estático de código, seguridad (SAST), dependencias (S
 | **Soporte TS / Node.js** | Excelente (`p/typescript`, `p/nodejs`, `p/owasp-top-ten`, `p/secrets`) | Excelente (análisis semántico *taint analysis*) | Muy bueno | Bueno |
 | **Permisos requeridos** | **Ninguno** (corre en Actions con `contents: read`) | **Repo Admin** (habilitado en *Code Security* de ambos repos) | **Owner de la org `FRRe-DS`** para vincular GitHub (no disponible) | Repo Admin, pero advierte cargos en *action minutes* |
 | **Costo y límites** | **$0** (Open Source, sin login ni tokens externos) | **$0** en repositorios públicos | Free Plan limitado a **5 usuarios**; OSS exige **licencia OSI** (ninguno de los repos tiene `LICENSE`) | Advierte consumo adicional de *action minutes* / créditos IA |
-| **Quality Gate + Evidencia** | Reporte `.sarif` como artefacto + bloqueo en `error` | Alertas en pestaña *Security → Code scanning* + *Check runs failure threshold* | Dashboard externo | Integrado |
+| **Quality Gate + Evidencia** | SARIF como artefacto y umbral configurable | Alertas en *Security → Code scanning* y posibilidad de definir umbrales | Dashboard externo | Integrado |
 
-### Decisión Definitiva del Stack CI/DevSecOps
-1. **SAST Dual:** **Semgrep (`1.184.0`)** + **GitHub CodeQL (`javascript-typescript`)**. Semgrep aporta reglas rápidas OWASP/secretos y genera reporte SARIF descargable; CodeQL aporta análisis semántico profundo nativo en GitHub.
-2. **SCA (Dependencias):** **`npm audit --omit=dev`** para detectar CVEs conocidas en dependencias de producción (complementado con *Dependabot alerts* ya activo en GitHub).
-3. **Compilación / Calidad estática:** **`tsc --noEmit`** con configuración `strict: true` en ambos repositorios.
-4. **Tests y Cobertura:**
-   * **Grupo 5:** Jest unitarios + `test:infra` (Postgres, RabbitMQ, Redis) + `jest --coverage` (`npm run test:cov`).
-   * **Grupo 12:** Vitest unitarios + `test:integration` (PostgreSQL 16 real) exportando reportes JUnit XML como artefactos; se propondrá a Desarrollo sumar `@vitest/coverage-v8` para publicar métricas de cobertura.
+### Herramientas utilizadas
+
+1. **SAST:** Semgrep `1.184.0` con reporte SARIF. En G12, el workflow también publica el reporte en GitHub Security. El análisis con CodeQL quedó como alternativa evaluada.
+2. **G12:** Prisma, `tsc --noEmit`, Vitest unitario y suite de integración con PostgreSQL 16. Los reportes descargables son JUnit XML.
+3. **G05:** el CI existente usa chequeo de tipos, validación de contratos, `npm audit`, Jest, build Docker y GHCR. El borrador agrega reportes JSON de Jest y SARIF. Las pruebas incluyen integración en memoria y con PostgreSQL, RabbitMQ y Redis.
 
 *(Nota: Se descarta **SonarQube Cloud** por exigir Owner de la organización `FRRe-DS`, tope de 5 usuarios en el Free Plan y falta de licencia OSI en los repositorios; y se mantiene desactivada la función paga/medida **GitHub Code Quality** para no consumir minutos adicionales de la organización).*
 
 ---
 
-## 2. Quality Gates Definidos
+## 2. Criterios de aceptación propuestos
 
-Un Pull Request hacia la rama principal (`main` en Grupo 5, `m6/base-de-datos` en Grupo 12) debe cumplir con los siguientes criterios automáticos:
+Para PRs hacia `main` en G05 y `m6/base-de-datos` en G12, se propuso usar el resultado de tipos y pruebas como criterio mínimo:
 
 1. **Integridad de tipos / Compilación:** `tsc --noEmit` (G12) o `npm run typecheck` (G5) sin errores.
-2. **Pruebas unitarias:** 100% de los tests unitarios aprobados, con reporte exportado como artefacto en GitHub Actions.
-3. **Pruebas de integración / E2E contra infraestructura real:** 100% aprobados contra PostgreSQL 16 (G12) y PostgreSQL + RabbitMQ + Redis (G5).
-4. **Análisis de dependencias (SCA):** `npm audit --omit=dev` sin vulnerabilidades bloqueantes (`--audit-level=high` en G12, `--audit-level=moderate` ya configurado en G5).
-5. **Análisis estático SAST (Semgrep + CodeQL):** 0 hallazgos de severidad bloqueante (`ERROR`) en código fuente de producción (`src/`). Los hallazgos `WARNING` y las observaciones manuales se conservan en el reporte SARIF como evidencia para acordar remediación con Desarrollo.
+2. **Pruebas unitarias, integración y E2E:** suites en verde y reportes disponibles como artefactos.
+3. **SAST:** Semgrep publica los hallazgos como evidencia para revisión. Falta acordar con cada grupo qué severidad debe bloquear el merge y cómo se aplicará la protección de rama.
+
+El check existente de dependencias en G05 usa `npm audit --omit=dev --audit-level=moderate`. El visto bueno de G12 corresponde a la integración del PR de CI. El acuerdo sobre los criterios futuros queda registrado por separado en la bitácora.
 
 ---
 
@@ -54,7 +54,7 @@ El flujo funcional mínimo validado en entorno controlado cubre el ciclo de vida
 
 ---
 
-## 4. Validación Local y Estado por Grupo
+## 4. Validación inicial del 16/11
 
 ### Grupo 12 (`FRRe-DS/2026-12-TPI`)
 * **Validación local ejecutada (2026-11-16, rama `m6/base-de-datos`):**
@@ -66,8 +66,8 @@ El flujo funcional mínimo validado en entorno controlado cubre el ciclo de vida
 * **Deuda de seguridad detectada manualmente (punto ciego de SAST a tratar con Desarrollo):**
   * `auth.middleware.ts` decodifica JWT sin validar firma.
   * `explorer.ts` expone rutas demo `/api/*` sin autenticación y CORS abierto (`*`).
-* **Entregables preparados (pendientes de PR hacia `m6/base-de-datos`):** `.github/workflows/ci.yml` y `.github/workflows/codeql.yml`.
+* **Resultado posterior:** `.github/workflows/ci.yml` se integró en el [PR #27](https://github.com/FRRe-DS/2026-12-TPI/pull/27). La evidencia de GitHub Actions está en la [bitácora del 25/11](../bitacora/2026-11-25-ci-g12-g05.md).
 
 ### Grupo 5 (`FRRe-DS/2026-05-TPI`)
-* **Estado actual:** Posee `.github/workflows/m6-viajes.yml` (Postgres, RabbitMQ, Redis, `npm audit`, `typecheck`, contratos, Jest + `test:infra`, Docker/GHCR). Se suma que Celeste abrió hoy el **PR #3 (`telemetria`)** con OpenTelemetry.
-* **Siguiente paso:** Validar localmente con Docker `test:infra`, `test:cov` y Semgrep sobre `m6-viajes/src` (contemplando `salud.service.spec.ts`, `repositorio-viajes.postgres.ts` y la rama `telemetria`) antes de preparar el PR con SAST + CodeQL + artefactos.
+* **CI de partida:** `.github/workflows/m6-viajes.yml` ya usaba PostgreSQL, RabbitMQ, Redis, `npm audit`, chequeo de tipos, validación de contratos, Jest y Docker/GHCR.
+* **Resultado posterior:** el [PR borrador #6](https://github.com/FRRe-DS/2026-05-TPI/pull/6) agrega reportes de pruebas y Semgrep. Queda pendiente su revisión e integración.
