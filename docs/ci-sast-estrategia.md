@@ -3,7 +3,7 @@
 **Responsable:** Franco (Rol 4 · CI/CD, Calidad y DevSecOps)  
 **Repositorios objetivo:** `FRRe-DS/2026-05-TPI` (Grupo 5) y `FRRe-DS/2026-12-TPI` (Grupo 12)
 
-**Estado al 25/11/2026:** G12 tiene CI integrado en su rama base. G05 tiene un PR borrador sobre el CI existente. Las corridas, reportes y acuerdos se registran en la [bitácora de CI](../bitacora/2026-11-25-ci-g12-g05.md).
+**Estado al 26/11/2026:** G12 tiene CI integrado en su rama base y un PR separado con el Quality Gate verificado. G05 tiene un PR borrador sobre el CI existente. Las corridas, reportes y acuerdos se registran en la [bitácora de CI](../bitacora/2026-11-25-ci-g12-g05.md).
 
 ---
 
@@ -34,7 +34,7 @@ Para PRs hacia `main` en G05 y `m6/base-de-datos` en G12, se propuso usar el res
 
 1. **Integridad de tipos / Compilación:** `tsc --noEmit` (G12) o `npm run typecheck` (G5) sin errores.
 2. **Pruebas unitarias, integración y E2E:** suites en verde y reportes disponibles como artefactos.
-3. **SAST:** Semgrep publica los hallazgos como evidencia para revisión. Falta acordar con cada grupo qué severidad debe bloquear el merge y cómo se aplicará la protección de rama.
+3. **SAST:** Semgrep publica los hallazgos como evidencia para revisión. G12 acordó bloquear los hallazgos altos y dejar los warnings en el reporte. El [PR #33](https://github.com/FRRe-DS/2026-12-TPI/pull/33) hace fallar el check ante resultados activos de nivel `error` en SARIF (altos, críticos y la etiqueta histórica `ERROR`). Quedan la revisión, el merge y la configuración de la protección de rama. En G05, Semgrep sigue informativo a la espera del acuerdo con Desarrollo.
 
 El check existente de dependencias en G05 usa `npm audit --omit=dev --audit-level=moderate`. El visto bueno de G12 corresponde a la integración del PR de CI. El acuerdo sobre los criterios futuros queda registrado por separado en la bitácora.
 
