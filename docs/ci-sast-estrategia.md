@@ -3,7 +3,7 @@
 **Responsable:** Franco (Rol 4 · CI/CD, Calidad y DevSecOps)  
 **Repositorios objetivo:** `FRRe-DS/2026-05-TPI` (Grupo 5) y `FRRe-DS/2026-12-TPI` (Grupo 12)
 
-**Estado al 26/11/2026:** G12 tiene CI integrado en su rama base y un PR separado con el Quality Gate verificado. G05 tiene un PR borrador sobre el CI existente. Las corridas, reportes y acuerdos se registran en la [bitácora de CI](../bitacora/2026-11-25-ci-g12-g05.md).
+**Estado al 26/11/2026:** G12 tiene CI integrado en su rama base y un PR separado con el Quality Gate verificado. G05 integró los reportes de pruebas y el análisis informativo de Semgrep en su CI de `main`. Las corridas, reportes y acuerdos se registran en la [bitácora de CI](../bitacora/2026-11-25-ci-g12-g05.md).
 
 ---
 
@@ -22,7 +22,7 @@ Para cubrir el análisis estático de código, seguridad (SAST), dependencias (S
 
 1. **SAST:** Semgrep `1.184.0` con reporte SARIF. En G12, el workflow también publica el reporte en GitHub Security. El análisis con CodeQL quedó como alternativa evaluada.
 2. **G12:** Prisma, `tsc --noEmit`, Vitest unitario y suite de integración con PostgreSQL 16. Los reportes descargables son JUnit XML.
-3. **G05:** el CI existente usa chequeo de tipos, validación de contratos, `npm audit`, Jest, build Docker y GHCR. El borrador agrega reportes JSON de Jest y SARIF. Las pruebas incluyen integración en memoria y con PostgreSQL, RabbitMQ y Redis.
+3. **G05:** el CI existente usa chequeo de tipos, validación de contratos, `npm audit`, Jest, build Docker y GHCR. El workflow publica reportes JSON de Jest y SARIF. Las pruebas incluyen integración en memoria y con PostgreSQL, RabbitMQ y Redis.
 
 *(Nota: Se descarta **SonarQube Cloud** por exigir Owner de la organización `FRRe-DS`, tope de 5 usuarios en el Free Plan y falta de licencia OSI en los repositorios; y se mantiene desactivada la función paga/medida **GitHub Code Quality** para no consumir minutos adicionales de la organización).*
 
@@ -34,7 +34,7 @@ Para PRs hacia `main` en G05 y `m6/base-de-datos` en G12, se propuso usar el res
 
 1. **Integridad de tipos / Compilación:** `tsc --noEmit` (G12) o `npm run typecheck` (G5) sin errores.
 2. **Pruebas unitarias, integración y E2E:** suites en verde y reportes disponibles como artefactos.
-3. **SAST:** Semgrep publica los hallazgos como evidencia para revisión. G12 acordó bloquear los hallazgos altos y dejar los warnings en el reporte. El [PR #33](https://github.com/FRRe-DS/2026-12-TPI/pull/33) hace fallar el check ante resultados activos de nivel `error` en SARIF (altos, críticos y la etiqueta histórica `ERROR`). Quedan la revisión, el merge y la configuración de la protección de rama. En G05, Semgrep sigue informativo a la espera del acuerdo con Desarrollo.
+3. **SAST:** Semgrep publica los hallazgos como evidencia para revisión. G12 acordó bloquear los hallazgos altos y dejar los warnings en el reporte. El [PR #33](https://github.com/FRRe-DS/2026-12-TPI/pull/33) hace fallar el check ante resultados activos de nivel `error` en SARIF (altos, críticos y la etiqueta histórica `ERROR`). Quedan la revisión, el merge y la configuración de la protección de rama. G05 aprobó integrar Semgrep informativo y dejó el umbral pendiente de acuerdo. [Visto bueno](https://github.com/FRRe-DS/2026-05-TPI/pull/6#issuecomment-7201406120).
 
 El check existente de dependencias en G05 usa `npm audit --omit=dev --audit-level=moderate`. El visto bueno de G12 corresponde a la integración del PR de CI. El acuerdo sobre los criterios futuros queda registrado por separado en la bitácora.
 
@@ -70,4 +70,4 @@ El flujo funcional mínimo validado en entorno controlado cubre el ciclo de vida
 
 ### Grupo 5 (`FRRe-DS/2026-05-TPI`)
 * **CI de partida:** `.github/workflows/m6-viajes.yml` ya usaba PostgreSQL, RabbitMQ, Redis, `npm audit`, chequeo de tipos, validación de contratos, Jest y Docker/GHCR.
-* **Resultado posterior:** el [PR borrador #6](https://github.com/FRRe-DS/2026-05-TPI/pull/6) agrega reportes de pruebas y Semgrep. Queda pendiente su revisión e integración.
+* **Resultado posterior:** el [PR #6](https://github.com/FRRe-DS/2026-05-TPI/pull/6) integró reportes de pruebas y Semgrep informativo. [Primera corrida en main](https://github.com/FRRe-DS/2026-05-TPI/actions/runs/45891429559).

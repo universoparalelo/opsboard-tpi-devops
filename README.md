@@ -94,10 +94,10 @@ Responsable: Franco. [Bitácora con las corridas, reportes y acuerdos de G05 y G
 
 | Verificación | G12 | G05 |
 |---|---|---|
-| Tipos, unitarios, integración y E2E | Integrado en [PR #27](https://github.com/FRRe-DS/2026-12-TPI/pull/27), con PostgreSQL, M8 simulado y reportes JUnit. | CI existente con build Docker y pruebas con PostgreSQL, RabbitMQ y Redis. El [PR #6](https://github.com/FRRe-DS/2026-05-TPI/pull/6) agrega reportes Jest y su [corrida pasó](https://github.com/FRRe-DS/2026-05-TPI/actions/runs/45633531528). |
-| SAST | Semgrep con SARIF disponible en la [corrida de la rama base](https://github.com/FRRe-DS/2026-12-TPI/actions/runs/45633634419). | Semgrep y SARIF en [PR #6](https://github.com/FRRe-DS/2026-05-TPI/pull/6), pendiente de revisión e integración. |
+| Tipos, unitarios, integración y E2E | Integrado en [PR #27](https://github.com/FRRe-DS/2026-12-TPI/pull/27), con PostgreSQL, M8 simulado y reportes JUnit. | Reportes Jest integrados en [PR #6](https://github.com/FRRe-DS/2026-05-TPI/pull/6). Pasaron tipos, contratos y las pruebas con PostgreSQL, RabbitMQ y Redis en la [primera corrida en main](https://github.com/FRRe-DS/2026-05-TPI/actions/runs/45891429559). |
+| SAST | Semgrep con SARIF disponible en la [corrida de la rama base](https://github.com/FRRe-DS/2026-12-TPI/actions/runs/45633634419). | Semgrep informativo integrado. [SARIF de main](https://github.com/FRRe-DS/2026-05-TPI/actions/runs/45891429559/artifacts/15151752119). |
 | Disparadores | PR y push sobre `m6/base-de-datos` en cambios de M6. | PR y push en cambios de M6. Publicación en GHCR en pushes a `main`. |
-| Quality Gates | G12 quiere bloquear hallazgos altos y dejar los warnings en el reporte. [PR #33](https://github.com/FRRe-DS/2026-12-TPI/pull/33) verificado, pendiente de revisión, merge y protección de rama. | Propuesta de tipos y pruebas en verde. Semgrep informativo hasta acordar el criterio con G05. |
+| Quality Gates | G12 quiere bloquear hallazgos altos y dejar los warnings en el reporte. [PR #33](https://github.com/FRRe-DS/2026-12-TPI/pull/33) verificado, pendiente de revisión, merge y protección de rama. | G05 aprobó integrar con Semgrep informativo. Queda acordar el umbral de bloqueo. [Visto bueno](https://github.com/FRRe-DS/2026-05-TPI/pull/6#issuecomment-7201406120). |
 
 - [x] Evidencia de un fallo detectado y su corrección en una rama de demostración de G12. [Corrida roja](https://github.com/FRRe-DS/2026-12-TPI/actions/runs/45633766132) y [corrida verde](https://github.com/FRRe-DS/2026-12-TPI/actions/runs/45633963994).
 
@@ -231,6 +231,7 @@ Formato mínimo de cada entrada (una por tarea relevante, en orden cronológico)
 ### 2026-11-26 · Franco · M6
 
 - [Criterio SAST de G12 y evidencia del Quality Gate](bitacora/2026-11-25-ci-g12-g05.md#seguimiento-del-2611--quality-gate-de-g12). G12 confirmó el criterio de severidad. El PR que lo automatiza está en revisión.
+- [Integración del CI de G05](bitacora/2026-11-25-ci-g12-g05.md#seguimiento-del-2611--integración-de-g05). G05 aprobó el PR #6 con Semgrep informativo. La primera corrida en `main` publicó los reportes y la imagen en GHCR.
 
 ## 8. Riesgos y dependencias a registrar temprano
 
