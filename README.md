@@ -102,7 +102,7 @@ Responsable: Franco. [Bitácora con las corridas, reportes y acuerdos de G05 y G
 - [x] Evidencia de un fallo detectado y su corrección en una rama de demostración de G12. [Corrida roja](https://github.com/FRRe-DS/2026-12-TPI/actions/runs/45633766132) y [corrida verde](https://github.com/FRRe-DS/2026-12-TPI/actions/runs/45633963994).
 
 ### Cierre del hito
-- [ ] Bitácora actualizada con enlaces verificables · Resp.: _ _ _
+- [x] Bitácora actualizada con enlaces a corridas, reportes, PR y evidencia de observabilidad · [CI](bitacora/2026-11-25-ci-g12-g05.md) y [métricas G5](bitacora/2026-11-20-validacion-metricas-g5.md) · Resp.: Equipo DevOps
 
 ---
 
@@ -201,7 +201,7 @@ Formato mínimo de cada entrada (una por tarea relevante, en orden cronológico)
   - Verificación de permisos en GitHub (*Advanced Security*: CodeQL y carga SARIF habilitados con rol Repo Admin; descarte fundado de SonarQube Cloud por requerir Owner de `FRRe-DS`, límite de 5 usuarios y licencia OSI, y de GitHub Code Quality por consumo de action minutes).
   - Ejecución local completa en `2026-12-TPI`: `prisma generate`, `tsc --noEmit` (`0` errores), `npm audit --omit=dev` (`0` high), Vitest unitarios (`221/221` OK), Vitest `test:integration` contra PostgreSQL 16 en Docker (`228/228` OK) y `semgrep scan` (`18` archivos, `0` hallazgos).
   - Diseño local de `.github/workflows/ci.yml` (con exportación de reportes JUnit y SARIF) y `.github/workflows/codeql.yml` para Grupo 12.
-- Decisiones / acuerdos con Desarrollo: Stack definitivo cerrado en **GitHub CodeQL + Semgrep (`1.184.0`) + `npm audit` + reportes de tests/cobertura**. Se detectaron 3 PRs abiertos en G12 (#7, #24, #25) y el PR #3 (`telemetria`) en G5; se coordina envío de PRs previa reunión/mensaje con Agos (G12) y Valentino (G5).
+- Decisiones / acuerdos con Desarrollo: se propuso **GitHub CodeQL + Semgrep (`1.184.0`) + `npm audit` + reportes de tests/cobertura**; el acuerdo sobre Quality Gates seguía pendiente. Se detectaron 3 PRs abiertos en G12 (#7, #24, #25) y el PR #3 (`telemetria`) en G5; se coordina envío de PRs previa reunión/mensaje con Agos (G12) y Valentino (G5).
 - Repositorio / issue / PR: `opsboard-tpi-devops` (actualización de estrategia y bitácora) · `2026-12-TPI` (workflows locales listos para PR).
 - Evidencia (URL, captura o reporte): [`docs/ci-sast-estrategia.md`](docs/ci-sast-estrategia.md).
 - Resultado: Pipeline de Grupo 12 validado de punta a punta en local; confirmado que Semgrep CE no detecta JWT sin verificación de firma (`auth.middleware.ts`) ni panel `/api/*` abierto, por lo que se registra como deuda de seguridad a tratar con G12.
