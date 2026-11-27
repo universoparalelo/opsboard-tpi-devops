@@ -3,7 +3,7 @@
 **Responsable:** Franco (Rol 4 · CI/CD, Calidad y DevSecOps)  
 **Repositorios objetivo:** `FRRe-DS/2026-05-TPI` (Grupo 5) y `FRRe-DS/2026-12-TPI` (Grupo 12)
 
-**Estado al 26/11/2026:** G12 tiene CI integrado en su rama base y un PR separado con el Quality Gate verificado. G05 integró los reportes de pruebas y el análisis informativo de Semgrep en su CI de `main`. Las corridas, reportes y acuerdos se registran en la [bitácora de CI](../bitacora/2026-11-25-ci-g12-g05.md).
+**Estado al 26/11/2026:** G12 tiene CI y el Quality Gate de Semgrep integrados en su rama base. G05 integró los reportes de pruebas y el análisis informativo de Semgrep en su CI de `main`. Las corridas, reportes y acuerdos se registran en la [bitácora de CI](../bitacora/2026-11-25-ci-g12-g05.md).
 
 ---
 
@@ -34,7 +34,7 @@ Para PRs hacia `main` en G05 y `m6/base-de-datos` en G12, se propuso usar el res
 
 1. **Integridad de tipos / Compilación:** `tsc --noEmit` (G12) o `npm run typecheck` (G5) sin errores.
 2. **Pruebas unitarias, integración y E2E:** suites en verde y reportes disponibles como artefactos.
-3. **SAST:** Semgrep publica los hallazgos como evidencia para revisión. G12 acordó bloquear los hallazgos altos y dejar los warnings en el reporte. El [PR #33](https://github.com/FRRe-DS/2026-12-TPI/pull/33) hace fallar el check ante resultados activos de nivel `error` en SARIF (altos, críticos y la etiqueta histórica `ERROR`). Quedan la revisión, el merge y la configuración de la protección de rama. G05 aprobó integrar Semgrep informativo y dejó el umbral pendiente de acuerdo. [Visto bueno](https://github.com/FRRe-DS/2026-05-TPI/pull/6#issuecomment-7201406120).
+3. **SAST:** Semgrep publica los hallazgos como evidencia para revisión. G12 acordó bloquear los hallazgos altos y dejar los warnings en el reporte. El [PR #33](https://github.com/FRRe-DS/2026-12-TPI/pull/33) quedó integrado. El check falla ante resultados activos de nivel `error` en SARIF (altos, críticos y la etiqueta histórica `ERROR`). Queda configurar la protección de rama para exigir los checks al mergear. G05 aprobó integrar Semgrep informativo y dejó el umbral pendiente de acuerdo. [Visto bueno](https://github.com/FRRe-DS/2026-05-TPI/pull/6#issuecomment-7201406120).
 
 El check existente de dependencias en G05 usa `npm audit --omit=dev --audit-level=moderate`. El visto bueno de G12 corresponde a la integración del PR de CI. El acuerdo sobre los criterios futuros queda registrado por separado en la bitácora.
 
